@@ -1,0 +1,8 @@
+<div data-utterances></div>
+
+<script>
+	import { setupUtterances } from '../lib/utterances';
+
+	const anchor = document.querySelector('[data-utterances]');
+	if (anchor instanceof HTMLElement) setupUtterances(anchor);
+</script>

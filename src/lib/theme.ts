@@ -19,6 +19,9 @@ export function applyTheme(theme: Theme) {
 	document.documentElement.classList.toggle('dark', isDark(theme));
 	document.documentElement.dataset.theme = theme;
 	syncToggles(theme);
+	document.dispatchEvent(
+		new CustomEvent('themechange', { detail: { theme, dark: isDark(theme) } }),
+	);
 }
 
 function syncToggles(theme: Theme) {
