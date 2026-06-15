@@ -11,11 +11,25 @@ interface Props {
 	title: string;
 	description: string;
 	image?: ImageMetadata;
+	ogTitle?: string;
+	ogDescription?: string;
+	ogImage?: ImageMetadata;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = FallbackImage } = Astro.props;
+const {
+	title,
+	description,
+	image = FallbackImage,
+	ogTitle,
+	ogDescription,
+	ogImage,
+} = Astro.props;
+
+const socialTitle = ogTitle ?? title;
+const socialDescription = ogDescription ?? description;
+const socialImage = ogImage ?? image;
 ---
 
 <!-- Global Metadata -->
@@ -57,13 +71,13 @@ const { title, description, image = FallbackImage } = Astro.props;
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={Astro.url} />
-<meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image.src, Astro.url)} />
+<meta property="og:title" content={socialTitle} />
+<meta property="og:description" content={socialDescription} />
+<meta property="og:image" content={new URL(socialImage.src, Astro.url)} />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image.src, Astro.url)} />
+<meta property="twitter:title" content={socialTitle} />
+<meta property="twitter:description" content={socialDescription} />
+<meta property="twitter:image" content={new URL(socialImage.src, Astro.url)} />

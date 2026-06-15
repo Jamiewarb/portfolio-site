@@ -3,13 +3,22 @@ import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import UtterancesComments from '../components/UtterancesComments.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, ogTitle, ogDescription, ogImage } =
+	Astro.props;
 ---
 
-<BaseLayout title={title} description={description} image={heroImage}>
+<BaseLayout
+	title={title}
+	description={description}
+	image={heroImage}
+	ogTitle={ogTitle}
+	ogDescription={ogDescription}
+	ogImage={ogImage}
+>
   <article>
     <div class="hero-image">
       {heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
