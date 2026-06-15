@@ -1,37 +1,54 @@
 ---
-import { Image } from 'astro:assets';
-import type { CollectionEntry } from 'astro:content';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import FormattedDate from '../components/FormattedDate.astro';
-import UtterancesComments from '../components/UtterancesComments.astro';
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import FormattedDate from "../components/FormattedDate.astro";
+import ArticleComments from "../components/ArticleComments.astro";
+import BlogPostJsonLD from "../components/BlogPostJsonLD.astro";
 
-type Props = CollectionEntry<'blog'>['data'];
+type Props = CollectionEntry<"blog">["data"];
 
-const { title, description, pubDate, updatedDate, heroImage, ogTitle, ogDescription, ogImage } =
-	Astro.props;
+const {
+  title,
+  description,
+  pubDate,
+  updatedDate,
+  heroImage,
+  ogTitle,
+  ogDescription,
+  ogImage,
+} = Astro.props;
 ---
 
 <BaseLayout
-	title={title}
-	description={description}
-	image={heroImage}
-	ogTitle={ogTitle}
-	ogDescription={ogDescription}
-	ogImage={ogImage}
+  title={title}
+  description={description}
+  image={heroImage}
+  ogTitle={ogTitle}
+  ogDescription={ogDescription}
+  ogImage={ogImage}
 >
   <article>
+    <BlogPostJsonLD
+      title={title}
+      description={description}
+      pubDate={pubDate}
+      updatedDate={updatedDate}
+      heroImage={heroImage}
+    />
     <div class="hero-image">
       {heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
     </div>
     <div class="prose">
       <div class="title">
         <div class="date">
-          <FormattedDate date={pubDate} />
           {
-            updatedDate && (
-              <div class="last-updated-on">
-                Last updated on <FormattedDate date={updatedDate} />
-              </div>
+            updatedDate ? (
+              <>
+                Updated on <FormattedDate date={updatedDate} />
+              </>
+            ) : (
+              <FormattedDate date={pubDate} />
             )
           }
         </div>
@@ -41,9 +58,8 @@ const { title, description, pubDate, updatedDate, heroImage, ogTitle, ogDescript
       </div>
 
       <slot />
-
     </div>
 
-    <UtterancesComments />
+    <ArticleComments />
   </article>
 </BaseLayout>

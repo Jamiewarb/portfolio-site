@@ -13,6 +13,7 @@
 
   --sidebar-border-color: var(--color-neutral-200);
   --sidebar-bg-color: var(--bg-color);
+  --content-border-color: var(--color-neutral-200);
 
   --link-color: var(--color-link);
   --link-highlight-color: var(--color-link-highlight);
