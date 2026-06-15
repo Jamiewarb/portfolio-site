@@ -1,0 +1,110 @@
+---
+import { humanReadableDate } from '../helpers/datetime';
+import { articleDate, getPublishedBlogPosts } from '../lib/blog';
+
+interface Props {
+	limit?: number;
+}
+
+const { limit = 5 } = Astro.props;
+
+const posts = await getPublishedBlogPosts({ limit });
+
+---
+
+{posts.length > 0 ? (
+	<ul class="writing-list">
+		{posts.map((post) => {
+			const displayDate = articleDate(post);
+			return (
+				<li>
+					<article class="writing-item">
+						<a href={`/blog/${post.id}/`} class="writing-item-link">
+							<time class="writing-item-date" datetime={displayDate.toISOString()}>
+								{humanReadableDate(displayDate)}
+							</time>
+							<h3 class="writing-item-title">{post.data.title}</h3>
+							<p class="writing-item-excerpt">{post.data.description}</p>
+						</a>
+					</article>
+				</li>
+			);
+		})}
+	</ul>
+) : (
+	<p class="writing-empty">No articles yet.</p>
+)}
+
+<style>
+	@reference "../styles/global.css";
+
+	.writing-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.writing-item {
+		margin: 0;
+	}
+
+	.writing-list li + li {
+		margin-top: 0.75rem;
+	}
+
+	.writing-item-link {
+		display: block;
+		color: inherit;
+		text-decoration: none;
+		border-radius: var(--border-radius);
+		margin-left: -0.5rem;
+		margin-right: -0.5rem;
+		padding: 0.35rem 0.5rem;
+	}
+
+	.writing-item-link:hover,
+	.writing-item-link:focus-visible {
+		background-color: var(--link-highlight-color);
+		text-decoration: none;
+	}
+
+	.writing-item-date {
+		display: block;
+		margin: 0 0 0.2rem;
+		color: var(--color-neutral-400);
+		font-size: 1rem;
+		line-height: 1.3;
+	}
+
+	.dark .writing-item-date {
+		color: var(--color-neutral-600);
+	}
+
+	.writing-item-title {
+		margin: 0 0 0.35rem;
+		font-family: var(--font-sans);
+		font-size: 1.25rem;
+		font-weight: 700;
+		line-height: 1.35;
+
+		@variant md {
+			font-size: 1.375rem;
+		}
+	}
+
+	.writing-item-excerpt {
+		margin: 0;
+		max-width: 42rem;
+		line-height: 1.5;
+    font-size: 1.125rem;
+	}
+
+	.writing-empty {
+		margin: 0;
+		color: var(--color-neutral-600);
+	}
+
+	.dark .writing-empty {
+		color: var(--color-neutral-400);
+	}
+</style>

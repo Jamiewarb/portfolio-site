@@ -1,0 +1,36 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import HeaderAndSidebar from '../components/HeaderAndSidebar.astro';
+import MainWrapper from '../components/MainWrapper.astro';
+import MainContent from '../components/MainContent.astro';
+import SiteWrapper from '../components/SiteWrapper.astro';
+import SkipLink from '../components/SkipLink.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../config/site';
+
+interface Props {
+	title?: string;
+	description?: string;
+	image?: ImageMetadata;
+}
+
+const { title, description, image } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={title ?? SITE_TITLE} description={description ?? SITE_DESCRIPTION} image={image} />
+	</head>
+
+	<body>
+		<SkipLink />
+		<SiteWrapper>
+			<HeaderAndSidebar />
+      <MainWrapper>
+        <MainContent>
+          <slot />
+        </MainContent>
+      </MainWrapper>
+		</SiteWrapper>
+	</body>
+</html>

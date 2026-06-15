@@ -15,7 +15,15 @@
     "@astrojs/mdx": "^6.0.3",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.3",
+    "@lucide/astro": "^1.18.0",
+    "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.4.6",
-    "sharp": "^0.34.3"
+    "sharp": "^0.34.3",
+    "tailwindcss": "^4.3.0"
+  },
+  "devDependencies": {
+    "jiti": "^2.7.0",
+    "lightningcss": "^1.32.0",
+    "vite": "7.3.5"
   }
 }
