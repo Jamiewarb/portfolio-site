@@ -1,6 +1,7 @@
 ---
 import { humanReadableDate } from '../helpers/datetime';
 import { articleDate, getPublishedBlogPosts } from '../lib/blog';
+import { ROUTES } from '../constants/routes';
 
 interface Props {
 	limit?: number;
@@ -19,7 +20,7 @@ const posts = await getPublishedBlogPosts({ limit });
 			return (
 				<li>
 					<article class="blog">
-						<a href={`/writing/${post.id}/`} class="blog-link">
+						<a href={ROUTES.writingPost(post.id)} class="blog-link">
 							<time class="blog-date" datetime={displayDate.toISOString()}>
 								{humanReadableDate(displayDate)}
 							</time>

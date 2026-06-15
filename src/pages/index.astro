@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../config/site';
 import PageHero from '../components/PageHero.astro';
 import RecentWriting from '../components/RecentWriting.astro';
+import { ROUTES } from '../constants/routes';
 ---
 
 <BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
@@ -14,10 +15,10 @@ import RecentWriting from '../components/RecentWriting.astro';
       All the content on this site is written by me, and not by AI.
     </p>
     <p class="links">
-      <a class="link" href="/me/">About Me</a>
+      <a class="link" href={ROUTES.me}>About Me</a>
       <a
         class="link"
-        href="https://jamiewarb.substack.com/"
+        href={ROUTES.external.newsletter}
         rel="noreferrer"
         target="_blank"
       >

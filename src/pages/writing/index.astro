@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import { articleDate, getPublishedBlogPosts } from '../../lib/blog';
+import { ROUTES } from '../../constants/routes';
 
 const posts = await getPublishedBlogPosts();
 ---
@@ -14,7 +15,7 @@ const posts = await getPublishedBlogPosts();
         {
           posts.map((post) => (
             <li>
-              <a href={`/writing/${post.id}/`}>
+              <a href={ROUTES.writingPost(post.id)}>
                 {post.data.heroImage && (
                   <Image width={720} height={360} src={post.data.heroImage} alt="" />
                 )}
