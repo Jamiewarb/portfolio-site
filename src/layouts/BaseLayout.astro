@@ -7,6 +7,7 @@ import SiteWrapper from '../components/SiteWrapper.astro';
 import SkipLink from '../components/SkipLink.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../config/site';
+import type { JsonLdSchema } from '../lib/seo';
 
 interface Props {
   title?: string;
@@ -16,6 +17,12 @@ interface Props {
   ogTitle?: string;
   ogDescription?: string;
   ogImage?: ImageMetadata;
+  ogType?: 'website' | 'article';
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  author?: string;
+  noindex?: boolean;
+  jsonLd?: JsonLdSchema;
 }
 
 const {
@@ -26,6 +33,12 @@ const {
   ogTitle,
   ogDescription,
   ogImage,
+  ogType,
+  publishedTime,
+  modifiedTime,
+  author,
+  noindex,
+  jsonLd,
 } = Astro.props;
 ---
 
@@ -39,6 +52,12 @@ const {
       ogTitle={ogTitle}
       ogDescription={ogDescription}
       ogImage={ogImage}
+      ogType={ogType}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+      author={author}
+      noindex={noindex}
+      jsonLd={jsonLd}
     />
   </head>
 

@@ -1,5 +1,6 @@
 import rss from '@astrojs/rss';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../config/site';
+import { ROUTES } from '../constants/routes';
 import { getPublishedBlogPosts } from '../lib/blog';
 
 export async function GET(context) {
@@ -10,7 +11,7 @@ export async function GET(context) {
     site: context.site,
     items: posts.map((post) => ({
       ...post.data,
-      link: `/blog/${post.id}/`,
+      link: ROUTES.writingPost(post.id),
     })),
   });
 }

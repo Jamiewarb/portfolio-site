@@ -5,10 +5,18 @@ import type { MarkdownHeading } from 'astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import ArticleComments from '../components/ArticleComments.astro';
-import BlogPostJsonLD from '../components/BlogPostJsonLD.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 import PostSidebar from '../components/PostSidebar.astro';
 import Divider from '../components/Divider.astro';
 import { ROUTES } from '../constants/routes';
+import { SITE_AUTHOR } from '../config/site';
+import {
+  absoluteUrl,
+  blogPostingSchema,
+  breadcrumbSchema,
+  normalizeJsonLd,
+  pageTitle,
+} from '../lib/seo';
 
 interface Props {
   post: BlogPost;
@@ -19,6 +27,7 @@ interface Props {
 const {
   post,
   post: {
+    id,
     data: {
       title,
       description,
@@ -29,74 +38,103 @@ const {
       ogDescription,
       ogImage,
       tags = [],
+      author: postAuthor,
     },
   },
   headings = [],
   minutesRead,
 } = Astro.props;
+
+const canonicalURL = absoluteUrl(ROUTES.writingPost(id), Astro.site!);
+const logoUrl = absoluteUrl('/favicon.svg', Astro.site!);
+const socialImage = ogImage ?? heroImage;
+const imageUrl = socialImage
+  ? new URL(socialImage.src, Astro.site).href
+  : undefined;
+const authorName = postAuthor ?? SITE_AUTHOR;
+const modifiedTime = updatedDate ?? pubDate;
+
+const breadcrumbAncestors = [{ label: 'Writing', href: ROUTES.writing }];
+
+const jsonLd = normalizeJsonLd([
+  blogPostingSchema({
+    title,
+    description,
+    pubDate,
+    updatedDate,
+    imageUrl,
+    url: canonicalURL,
+    site: Astro.site!,
+    authorName,
+    logoUrl,
+  }),
+  breadcrumbSchema(
+    [
+      ...breadcrumbAncestors.map((item) => ({ name: item.label, path: item.href })),
+      { name: title },
+    ],
+    Astro.site!,
+  ),
+]);
 ---
 
 <BaseLayout
-  title={title}
+  title={pageTitle(title)}
   description={description}
   image={heroImage}
   ogTitle={ogTitle}
   ogDescription={ogDescription}
   ogImage={ogImage}
+  ogType="article"
+  publishedTime={pubDate}
+  modifiedTime={modifiedTime}
+  author={authorName}
+  jsonLd={jsonLd}
   pageType="article"
 >
   <article>
-    <BlogPostJsonLD
-      title={title}
-      description={description}
-      pubDate={pubDate}
-      updatedDate={updatedDate}
-      heroImage={heroImage}
-    />
+    <Breadcrumbs items={breadcrumbAncestors} pageTitle={title} pageTitleVariant="article" />
+
+    <div class="post-meta">
+      <div class="eyebrow-meta">
+        <div class="date">
+          <FormattedDate date={articleDate(post)} />
+        </div>
+        {
+          minutesRead && (
+            <>
+              <Divider />
+              <span class="reading-time">{minutesRead}</span>
+            </>
+          )
+        }
+        <Divider />
+        <a href="#comments" class="comments-link">Comments</a>
+      </div>
+
+      {
+        tags.length > 0 && (
+          <ul class="topic-tags">
+            {tags.map((tag) => (
+              <li>
+                <a class="topic-tag" href={ROUTES.topic(tagToSlug(tag))}>
+                  {tag}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+
     <div class="flex flex-col gap-6">
       {
         heroImage && (
           <div class="hero-image">
-            <Image width={1020} height={510} src={heroImage} alt="" />
+            <Image width={1020} height={510} src={heroImage} alt={title} />
           </div>
         )
       }
-
-      <div class="title">
-        <div class="eyebrow">
-          <div class="eyebrow-meta">
-            <div class="date">
-              <FormattedDate date={articleDate(post)} />
-            </div>
-            {
-              minutesRead && (
-                <>
-                  <Divider />
-                  <span class="reading-time">{minutesRead}</span>
-                </>
-              )
-            }
-            <Divider />
-            <a href="#comments" class="comments-link">Comments</a>
-          </div>
-
-          {
-            tags.length > 0 && (
-              <ul class="topic-tags">
-                {tags.map((tag) => (
-                  <li>
-                    <a class="topic-tag" href={ROUTES.topic(tagToSlug(tag))}>
-                      {tag}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )
-          }
-        </div>
-
-        <h1>{title}</h1>
-      </div>
 
       <div class="main-article">
         <div class="prose dark:prose-invert">
@@ -113,11 +151,12 @@ const {
 </BaseLayout>
 
 <style>
-  .eyebrow {
+  .post-meta {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
+    margin-bottom: 1.5rem;
     font-size: 0.9rem;
   }
 
@@ -164,12 +203,5 @@ const {
   .comments-link {
     color: var(--link-color);
     font-weight: 500;
-  }
-
-  h1 {
-    font-size: var(--prose-h1);
-    margin-top: 1rem;
-    line-height: 1.1;
-    margin-bottom: 1rem;
   }
 </style>

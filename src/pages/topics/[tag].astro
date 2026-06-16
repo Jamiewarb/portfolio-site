@@ -1,10 +1,17 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import PageHero from '@/components/PageHero.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
 import WritingList from '@/components/WritingList.astro';
 import WritingListItem from '@/components/WritingListItem.astro';
 import { getAllTopicsWithPosts, groupPostsByYear } from '@/lib/blog';
 import { ROUTES } from '@/constants/routes';
+import { TOPICS_TITLE } from '@/config/site';
+import {
+  breadcrumbSchema,
+  collectionPageSchema,
+  normalizeJsonLd,
+  pageTitle,
+} from '@/lib/seo';
 
 export async function getStaticPaths() {
   const topics = await getAllTopicsWithPosts();
@@ -19,16 +26,29 @@ const topic = Astro.props;
 const postCount = topic.posts.length;
 const postCountLabel = `${postCount} ${postCount === 1 ? 'post' : 'posts'}`;
 const yearGroups = groupPostsByYear(topic.posts);
+const description = `${postCountLabel} tagged with ${topic.name}.`;
+
+const breadcrumbAncestors = [{ label: TOPICS_TITLE, href: ROUTES.topics }];
+
+const jsonLd = normalizeJsonLd([
+  collectionPageSchema(Astro.site!, topic.name, description, ROUTES.topic(topic.slug)),
+  breadcrumbSchema(
+    [
+      ...breadcrumbAncestors.map((item) => ({ name: item.label, path: item.href })),
+      { name: topic.name },
+    ],
+    Astro.site!,
+  ),
+]);
 ---
 
-<BaseLayout title={topic.name}>
-  <PageHero title={topic.name}>
-    <nav slot="eyebrow" class="topic-breadcrumb" aria-label="Breadcrumb">
-      <a class="link" href={ROUTES.topics}>Topics</a>
-      <span class="topic-breadcrumb-separator" aria-hidden="true">/</span>
-      <span>{postCountLabel}</span>
-    </nav>
-  </PageHero>
+<BaseLayout title={pageTitle(topic.name)} description={description} jsonLd={jsonLd}>
+  <Breadcrumbs
+    items={breadcrumbAncestors}
+    pageTitle={topic.name}
+    pageTitleVariant="hero"
+  />
+  <p class="description">{postCountLabel}</p>
 
   <div class="topic-years">
     {
@@ -56,17 +76,10 @@ const yearGroups = groupPostsByYear(topic.posts);
 <style>
   @reference "../../styles/global.css";
 
-  .topic-breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin: 0;
-    font-size: 1rem;
+  .description {
+    margin: 0 0 2rem;
     color: var(--text-muted);
-  }
-
-  .topic-breadcrumb-separator {
-    color: var(--text-color);
+    font-size: 1rem;
   }
 
   .topic-years {
