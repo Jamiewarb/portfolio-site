@@ -1,0 +1,30 @@
+---
+import { copyrightYearRange } from '../helpers/datetime';
+---
+
+<footer class="footer">
+  <section class="flex flex-col items-end gap-2">
+    <p>
+      Built with <a class="link" href="https://astro.build">Astro</a> and hosted on <a
+        class="link"
+        href="https://netlify.com">Netlify</a
+      >.
+    </p>
+    <p>
+      © {copyrightYearRange('2026')} Jamie Warburton. All rights reserved.
+    </p>
+  </section>
+</footer>
+
+<style>
+  @reference "../styles/global.css";
+
+  footer {
+    border-top: 1px solid var(--content-border-color);
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-left: calc(-1 * var(--wrapper-padding) + 1.25rem);
+    padding: 1.25rem 0;
+    padding-bottom: 1.3rem;
+  }
+</style>

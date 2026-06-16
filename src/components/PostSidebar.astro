@@ -1,0 +1,249 @@
+---
+import type { MarkdownHeading } from 'astro';
+import TableOfContents from './TableOfContents.astro';
+import { hasTableOfContents } from '../lib/table-of-contents';
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+const showTOC = hasTableOfContents(headings);
+---
+
+{
+  showTOC && (
+    <aside class="post-sidebar">
+      <div class="post-sidebar-content">
+        <section class="post-sidebar-section">
+          <div class="post-sidebar-card">
+            <TableOfContents headings={headings} />
+          </div>
+        </section>
+      </div>
+    </aside>
+  )
+}
+
+<style>
+  @reference "../styles/global.css";
+
+  .post-sidebar {
+    display: none;
+    flex-shrink: 0;
+    min-width: var(--post-sidebar-width);
+    opacity: 0;
+    transition: opacity 150ms ease;
+    visibility: hidden;
+    width: var(--post-sidebar-width);
+  }
+
+  @media screen and (min-width: 1360px) {
+    .post-sidebar {
+      display: block;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .post-sidebar {
+      transition: none;
+    }
+  }
+
+  .post-sidebar.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .post-sidebar-content {
+    padding-top: 3rem;
+    position: sticky;
+    top: 0;
+    width: var(--post-sidebar-width);
+  }
+
+  .post-sidebar-content h2 {
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    margin: 0 0 0.75rem 0.75rem;
+  }
+
+  .post-sidebar-card {
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    padding-left: 1.75rem;
+    scroll-padding-bottom: 60px;
+    scroll-padding-top: 60px;
+    scrollbar-width: none;
+  }
+
+  .post-sidebar-content :global(nav a) {
+    border-radius: var(--border-radius);
+    color: var(--text-muted);
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    overflow: hidden;
+    padding: 6px 0.75rem;
+    margin-left: -0.75rem;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .post-sidebar-content :global(nav a:hover) {
+    background: var(--toc-link-hover-bg);
+    color: var(--text-color);
+    text-decoration: none;
+  }
+
+  .post-sidebar-content :global(nav a.active) {
+    background: var(--toc-link-active-bg);
+    color: var(--link-color);
+  }
+
+  .post-sidebar-content :global(nav ul),
+  .post-sidebar-content :global(nav li),
+  .post-sidebar-content :global(nav p) {
+    line-height: 1;
+    padding: 0;
+  }
+
+  .post-sidebar-content :global(nav ul) {
+    margin: 0;
+    padding-inline-start: 0;
+  }
+
+  .post-sidebar-content :global(nav ul ul li > a) {
+    border-bottom-left-radius: 0;
+    border-left: 1px solid var(--sidebar-border-color);
+    border-top-left-radius: 0;
+    margin-left: 2rem;
+  }
+
+  .post-sidebar-content :global(nav ul ul li > a.active) {
+    border-color: var(--link-color);
+  }
+
+  .post-sidebar-content :global(nav li) {
+    list-style-type: none;
+  }
+
+  .post-sidebar-content :global(nav li p) {
+    margin: 0;
+  }
+</style>
+
+<script>
+  const sidebarMediaQuery = window.matchMedia('(min-width: 1360px)');
+
+  function revealPostSidebar(sidebar: HTMLElement) {
+    if (!sidebarMediaQuery.matches || sidebar.classList.contains('is-visible')) {
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        sidebar.classList.add('is-visible');
+      });
+    });
+  }
+
+  function alignPostSidebar() {
+    const sidebar = document.querySelector('.post-sidebar');
+    const article = document.querySelector('.main-article');
+
+    if (!(sidebar instanceof HTMLElement) || !(article instanceof HTMLElement)) {
+      return;
+    }
+
+    const offset = article.getBoundingClientRect().top - sidebar.getBoundingClientRect().top;
+    sidebar.style.paddingTop = `${Math.max(0, offset - 24)}px`;
+    revealPostSidebar(sidebar);
+  }
+
+  function initPostSidebar() {
+    const sidebar = document.querySelector('.post-sidebar');
+    const article = document.querySelector('.main-article');
+
+    if (!sidebar || !article) {
+      return;
+    }
+
+    alignPostSidebar();
+
+    const anchors = document.querySelectorAll('.table-of-contents a');
+    const sectionIds = ['introduction'];
+
+    anchors.forEach((anchor) => {
+      if (!(anchor instanceof HTMLAnchorElement)) {
+        return;
+      }
+
+      const id = anchor.hash.replace('#', '');
+      if (id) {
+        sectionIds.push(id);
+      }
+    });
+
+    let activeHash = '';
+
+    function applyActiveHash() {
+      if (!activeHash) {
+        return;
+      }
+
+      anchors.forEach((anchor) => {
+        anchor.classList.remove('active');
+      });
+
+      const activeLink = document.querySelector(
+        `.table-of-contents a[href$="#${activeHash}"]`,
+      );
+
+      if (activeLink) {
+        activeLink.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        activeLink.classList.add('active');
+      }
+    }
+
+    function setActiveHash(hash: string) {
+      activeHash = hash;
+      applyActiveHash();
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.target.id) {
+            activeHash = entry.target.id;
+            applyActiveHash();
+          }
+        });
+      },
+      { rootMargin: '0% 0% -80% 0%' },
+    );
+
+    sectionIds.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    const introLink = document.querySelector('.table-of-contents a[href="#introduction"]');
+    introLink?.addEventListener('click', () => {
+      setActiveHash('introduction');
+    });
+  }
+
+  initPostSidebar();
+  window.addEventListener('resize', alignPostSidebar);
+  window.addEventListener('load', alignPostSidebar);
+
+  sidebarMediaQuery.addEventListener('change', alignPostSidebar);
+
+  document.querySelectorAll('.main-article img').forEach((image) => {
+    image.addEventListener('load', alignPostSidebar);
+  });
+</script>

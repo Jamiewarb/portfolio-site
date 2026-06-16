@@ -1,14 +1,22 @@
 ---
+
 ---
 
-<div class="main-wrapper">
+<div class="main-wrapper sticky-footer">
   <slot />
 </div>
 
 <style>
+  @reference "../styles/global.css";
+
   .main-wrapper {
     min-height: 100vh;
     padding-left: var(--wrapper-padding);
     padding-right: var(--wrapper-padding);
+    padding-top: var(--navbar-height);
+
+    @variant lg {
+      padding-top: 0;
+    }
   }
 </style>

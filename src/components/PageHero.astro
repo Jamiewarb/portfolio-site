@@ -4,12 +4,13 @@ interface Props {
   title: string;
 }
 
-const { type = 'index', title } = Astro.props;
+const { type, title } = Astro.props;
 ---
 
 <header class:list={['page-hero', type]}>
   <div class="wrapper">
     <div>
+      <slot name="eyebrow" />
       <h1>{title}</h1>
       <slot />
     </div>

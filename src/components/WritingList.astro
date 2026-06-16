@@ -1,0 +1,17 @@
+<ul class="writing-list">
+  <slot />
+</ul>
+
+<style>
+  @reference "../styles/global.css";
+
+  .writing-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .writing-list :global(li + li) {
+    margin-top: 0.75rem;
+  }
+</style>

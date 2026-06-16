@@ -1,18 +1,18 @@
 <div class="site-wrapper">
-	<slot />
+  <slot />
 </div>
 
 <style>
-	@reference "../styles/global.css";
+  @reference "../styles/global.css";
 
-	.site-wrapper {
-		@variant lg {
-			display: grid;
-			grid-template-columns: var(--sidebar-width) 1fr;
-			margin: 0 auto;
-			max-width: calc(
-				var(--content-width) + var(--sidebar-width) + var(--post-sidebar-width) + 4rem
-			);
-		}
-	}
+  .site-wrapper {
+    @variant lg {
+      display: grid;
+      grid-template-columns: var(--sidebar-width) 1fr;
+      margin: 0 auto;
+      max-width: calc(
+        var(--content-width) + var(--sidebar-width) + var(--post-sidebar-width) + 6rem
+      );
+    }
+  }
 </style>

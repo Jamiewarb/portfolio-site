@@ -1,95 +1,130 @@
 <div
-	class="theme-toggle inline-flex items-center"
-	data-theme-toggle
-	role="group"
-	aria-label="Color scheme"
+  class="theme-toggle inline-flex items-center"
+  data-theme-toggle
+  role="group"
+  aria-label="Color scheme"
 >
-	<button
-		type="button"
-		class="theme-toggle__button"
-		data-theme-value="light"
-		aria-label="Light mode"
-		aria-pressed="false"
-	>
-		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-			<circle cx="12" cy="12" r="4"></circle>
-			<path d="M12 2v2"></path>
-			<path d="M12 20v2"></path>
-			<path d="m4.93 4.93 1.41 1.41"></path>
-			<path d="m17.66 17.66 1.41 1.41"></path>
-			<path d="M2 12h2"></path>
-			<path d="M20 12h2"></path>
-			<path d="m6.34 17.66-1.41 1.41"></path>
-			<path d="m19.07 4.93-1.41 1.41"></path>
-		</svg>
-	</button>
-	<button
-		type="button"
-		class="theme-toggle__button"
-		data-theme-value="dark"
-		aria-label="Dark mode"
-		aria-pressed="false"
-	>
-		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-			<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-		</svg>
-	</button>
-	<button
-		type="button"
-		class="theme-toggle__button"
-		data-theme-value="system"
-		aria-label="System mode"
-		aria-pressed="false"
-	>
-		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-			<rect width="20" height="14" x="2" y="3" rx="2"></rect>
-			<path d="M8 21h8"></path>
-			<path d="M12 17v4"></path>
-		</svg>
-	</button>
+  <button
+    type="button"
+    class="theme-toggle__button"
+    data-theme-value="light"
+    aria-label="Light mode"
+    aria-pressed="false"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2"></path>
+      <path d="M12 20v2"></path>
+      <path d="m4.93 4.93 1.41 1.41"></path>
+      <path d="m17.66 17.66 1.41 1.41"></path>
+      <path d="M2 12h2"></path>
+      <path d="M20 12h2"></path>
+      <path d="m6.34 17.66-1.41 1.41"></path>
+      <path d="m19.07 4.93-1.41 1.41"></path>
+    </svg>
+  </button>
+  <button
+    type="button"
+    class="theme-toggle__button"
+    data-theme-value="dark"
+    aria-label="Dark mode"
+    aria-pressed="false"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+    </svg>
+  </button>
+  <button
+    type="button"
+    class="theme-toggle__button"
+    data-theme-value="system"
+    aria-label="System mode"
+    aria-pressed="false"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <rect width="20" height="14" x="2" y="3" rx="2"></rect>
+      <path d="M8 21h8"></path>
+      <path d="M12 17v4"></path>
+    </svg>
+  </button>
 </div>
 
 <style>
-	.theme-toggle {
-		--theme-toggle-border: var(--color-neutral-200);
-		--theme-toggle-bg: transparent;
-		--theme-toggle-icon: var(--color-neutral-600);
-		--theme-toggle-icon-hover: var(--color-neutral-900);
-		--theme-toggle-active-bg: var(--color-neutral-200);
+  .theme-toggle {
+    --theme-toggle-border: var(--color-neutral-200);
+    --theme-toggle-bg: transparent;
+    --theme-toggle-icon: var(--color-neutral-600);
+    --theme-toggle-icon-hover: var(--color-neutral-900);
+    --theme-toggle-active-bg: var(--color-neutral-200);
 
-		border: 1px solid var(--theme-toggle-border);
-		border-radius: 9999px;
-		background-color: var(--theme-toggle-bg);
-	}
+    border: 1px solid var(--theme-toggle-border);
+    border-radius: 9999px;
+    background-color: var(--theme-toggle-bg);
+  }
 
-	:global(.dark) .theme-toggle {
-		--theme-toggle-border: var(--color-neutral-700);
-		--theme-toggle-bg: transparent;
-		--theme-toggle-icon: var(--color-neutral-400);
-		--theme-toggle-icon-hover: var(--color-neutral-100);
-		--theme-toggle-active-bg: var(--color-neutral-700);
-	}
+  :global(.dark) .theme-toggle {
+    --theme-toggle-border: var(--color-neutral-700);
+    --theme-toggle-bg: transparent;
+    --theme-toggle-icon: var(--color-neutral-400);
+    --theme-toggle-icon-hover: var(--color-neutral-100);
+    --theme-toggle-active-bg: var(--color-neutral-700);
+  }
 
-	.theme-toggle__button {
+  .theme-toggle__button {
     padding: 0.375rem;
-		border: none;
-		border-radius: 9999px;
-		background: transparent;
-		color: var(--theme-toggle-icon);
-		cursor: pointer;
-		transition: color 0.15s ease, background-color 0.15s ease;
-	}
+    border: none;
+    border-radius: 9999px;
+    background: transparent;
+    color: var(--theme-toggle-icon);
+    cursor: pointer;
+    transition:
+      color 0.15s ease,
+      background-color 0.15s ease;
+  }
 
-	.theme-toggle__button:hover {
-		color: var(--theme-toggle-icon-hover);
-	}
+  .theme-toggle__button:hover {
+    color: var(--theme-toggle-icon-hover);
+  }
 
-	.theme-toggle__button[data-active] {
-		background-color: var(--theme-toggle-active-bg);
-	}
+  .theme-toggle__button[data-active] {
+    background-color: var(--theme-toggle-active-bg);
+  }
 </style>
 
 <script>
-	import { setupTheme } from '../lib/theme';
-	setupTheme();
+  import { setupTheme } from '../lib/theme';
+  setupTheme();
 </script>

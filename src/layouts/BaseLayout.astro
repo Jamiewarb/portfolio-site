@@ -3,45 +3,94 @@ import type { ImageMetadata } from 'astro';
 import BaseHead from '../components/BaseHead.astro';
 import HeaderAndSidebar from '../components/HeaderAndSidebar.astro';
 import MainWrapper from '../components/MainWrapper.astro';
-import MainContent from '../components/MainContent.astro';
 import SiteWrapper from '../components/SiteWrapper.astro';
 import SkipLink from '../components/SkipLink.astro';
+import Footer from '../components/Footer.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../config/site';
 
 interface Props {
-	title?: string;
-	description?: string;
-	image?: ImageMetadata;
-	ogTitle?: string;
-	ogDescription?: string;
-	ogImage?: ImageMetadata;
+  title?: string;
+  description?: string;
+  pageType?: 'article' | 'page';
+  image?: ImageMetadata;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: ImageMetadata;
 }
 
-const { title, description, image, ogTitle, ogDescription, ogImage } = Astro.props;
+const {
+  title,
+  description,
+  pageType = 'page',
+  image,
+  ogTitle,
+  ogDescription,
+  ogImage,
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead
-			title={title ?? SITE_TITLE}
-			description={description ?? SITE_DESCRIPTION}
-			image={image}
-			ogTitle={ogTitle}
-			ogDescription={ogDescription}
-			ogImage={ogImage}
-		/>
-	</head>
+  <head>
+    <BaseHead
+      title={title ?? SITE_TITLE}
+      description={description ?? SITE_DESCRIPTION}
+      image={image}
+      ogTitle={ogTitle}
+      ogDescription={ogDescription}
+      ogImage={ogImage}
+    />
+  </head>
 
-	<body>
-		<SkipLink />
-		<SiteWrapper>
-			<HeaderAndSidebar />
+  <body>
+    <SkipLink />
+    <SiteWrapper>
+      <HeaderAndSidebar />
       <MainWrapper>
-        <MainContent>
-          <slot />
-        </MainContent>
+        <div class="content-area">
+          <main id="main-content" tabindex="-1" class:list={['main-content', pageType]}>
+            <slot />
+          </main>
+          <slot name="post-sidebar" />
+        </div>
+        <Footer />
       </MainWrapper>
-		</SiteWrapper>
-	</body>
+    </SiteWrapper>
+  </body>
 </html>
+
+<style>
+  @reference "../styles/global.css";
+
+  .content-area {
+    display: flex;
+    flex: 1;
+    gap: var(--wrapper-padding);
+    margin: 0 auto;
+    min-width: 0;
+    padding-bottom: 3rem; /* Extra space at bottom of page to feel more comfortable scrolling */
+    width: 100%; /* Required due to sticky footer */
+  }
+
+  @media screen and (min-width: 1360px) {
+    .content-area {
+      gap: var(--wrapper-padding);
+    }
+  }
+
+  .main-content {
+    flex-grow: 1;
+    max-width: calc(var(--content-width) + var(--sidebar-width));
+    min-width: 0;
+
+    &.article {
+      max-width: var(--content-width);
+    }
+
+    @variant lg {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      padding-top: 2rem;
+    }
+  }
+</style>

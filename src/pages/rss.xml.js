@@ -3,14 +3,14 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../config/site';
 import { getPublishedBlogPosts } from '../lib/blog';
 
 export async function GET(context) {
-	const posts = await getPublishedBlogPosts();
-	return rss({
-		title: SITE_TITLE,
-		description: SITE_DESCRIPTION,
-		site: context.site,
-		items: posts.map((post) => ({
-			...post.data,
-			link: `/blog/${post.id}/`,
-		})),
-	});
+  const posts = await getPublishedBlogPosts();
+  return rss({
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    site: context.site,
+    items: posts.map((post) => ({
+      ...post.data,
+      link: `/blog/${post.id}/`,
+    })),
+  });
 }

@@ -7,35 +7,32 @@ import { ROUTES } from '../constants/routes';
 ---
 
 <BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
-  <PageHero type="index" title="Hey, I'm Jamie!">
+  <PageHero type="index" title="I'm Jamie">
     <p class="description">
-      I'm a software engineer and engineering leader. I've been making websites and products since 2010, and some of them have won&nbsp;awards!
+      I'm a software engineer, engineering leader, and proud father. I've been making websites
+      and products since 2010, and some of them have won&nbsp;awards!
     </p>
     <p class="description">
-      All the content on this site is written by me, and not by AI.
+      Here you'll find my writing, projects, talks, and other things I've been working on or
+      involved in.
     </p>
     <p class="links">
       <a class="link" href={ROUTES.me}>About Me</a>
-      <a
-        class="link"
-        href={ROUTES.external.newsletter}
-        rel="noreferrer"
-        target="_blank"
-      >
+      <a class="link" href={ROUTES.external.newsletter} rel="noreferrer" target="_blank">
         Email Newsletter
       </a>
     </p>
   </PageHero>
 
-  <section class="home-section">
+  <section>
     <h2>Recent Writing</h2>
     <RecentWriting limit={5} />
   </section>
 
-  <section class="home-section">
+  <section>
     <h2>Highlighted Projects</h2>
+    <p class="projects-empty">No projects yet.</p>
   </section>
-
 </BaseLayout>
 
 <style>
@@ -55,21 +52,26 @@ import { ROUTES } from '../constants/routes';
     gap: 1rem;
   }
 
-  .links .link {
+  .link {
     font-size: 1.125rem;
   }
 
-  .home-section {
+  section {
     margin-bottom: 4rem;
   }
 
-  .home-section h2 {
+  h2 {
     margin: 0 0 1.25rem;
-    font-size: 1.875rem;
+    font-size: 1.625rem;
     line-height: 1.15;
 
     @variant md {
-      font-size: 2.125rem;
+      font-size: 1.875rem;
     }
+  }
+
+  .projects-empty {
+    margin: 0;
+    color: var(--text-muted);
   }
 </style>

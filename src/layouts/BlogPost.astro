@@ -1,22 +1,38 @@
 ---
-import { Image } from "astro:assets";
-import type { CollectionEntry } from "astro:content";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import FormattedDate from "../components/FormattedDate.astro";
-import ArticleComments from "../components/ArticleComments.astro";
-import BlogPostJsonLD from "../components/BlogPostJsonLD.astro";
+import { Image } from 'astro:assets';
+import { articleDate, tagToSlug, type BlogPost } from '../lib/blog';
+import type { MarkdownHeading } from 'astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import ArticleComments from '../components/ArticleComments.astro';
+import BlogPostJsonLD from '../components/BlogPostJsonLD.astro';
+import PostSidebar from '../components/PostSidebar.astro';
+import Divider from '../components/Divider.astro';
+import { ROUTES } from '../constants/routes';
 
-type Props = CollectionEntry<"blog">["data"];
+interface Props {
+  post: BlogPost;
+  headings?: MarkdownHeading[];
+  minutesRead?: string;
+}
 
 const {
-  title,
-  description,
-  pubDate,
-  updatedDate,
-  heroImage,
-  ogTitle,
-  ogDescription,
-  ogImage,
+  post,
+  post: {
+    data: {
+      title,
+      description,
+      pubDate,
+      updatedDate,
+      heroImage,
+      ogTitle,
+      ogDescription,
+      ogImage,
+      tags = [],
+    },
+  },
+  headings = [],
+  minutesRead,
 } = Astro.props;
 ---
 
@@ -27,6 +43,7 @@ const {
   ogTitle={ogTitle}
   ogDescription={ogDescription}
   ogImage={ogImage}
+  pageType="article"
 >
   <article>
     <BlogPostJsonLD
@@ -36,30 +53,123 @@ const {
       updatedDate={updatedDate}
       heroImage={heroImage}
     />
-    <div class="hero-image">
-      {heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
-    </div>
-    <div class="prose">
+    <div class="flex flex-col gap-6">
+      {
+        heroImage && (
+          <div class="hero-image">
+            <Image width={1020} height={510} src={heroImage} alt="" />
+          </div>
+        )
+      }
+
       <div class="title">
-        <div class="date">
+        <div class="eyebrow">
+          <div class="eyebrow-meta">
+            <div class="date">
+              <FormattedDate date={articleDate(post)} />
+            </div>
+            {
+              minutesRead && (
+                <>
+                  <Divider />
+                  <span class="reading-time">{minutesRead}</span>
+                </>
+              )
+            }
+            <Divider />
+            <a href="#comments" class="comments-link">Comments</a>
+          </div>
+
           {
-            updatedDate ? (
-              <>
-                Updated on <FormattedDate date={updatedDate} />
-              </>
-            ) : (
-              <FormattedDate date={pubDate} />
+            tags.length > 0 && (
+              <ul class="topic-tags">
+                {tags.map((tag) => (
+                  <li>
+                    <a class="topic-tag" href={ROUTES.topic(tagToSlug(tag))}>
+                      {tag}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             )
           }
         </div>
 
         <h1>{title}</h1>
-        <hr />
       </div>
 
-      <slot />
+      <div class="main-article">
+        <div class="prose dark:prose-invert">
+          <div class="introduction" id="introduction"></div>
+          <slot />
+        </div>
+      </div>
     </div>
 
     <ArticleComments />
   </article>
+
+  <PostSidebar slot="post-sidebar" headings={headings} />
 </BaseLayout>
+
+<style>
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .eyebrow-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .topic-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .topic-tag {
+    border: 2px solid var(--content-border-color);
+    border-radius: var(--border-radius);
+    padding: 0.15rem 0.5rem;
+    color: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .topic-tag:hover,
+  .topic-tag:focus-visible {
+    background-color: var(--link-highlight-color);
+    text-decoration: none;
+  }
+
+  .date,
+  .reading-time {
+    color: var(--text-muted);
+  }
+
+  .comments-link {
+    color: var(--link-color);
+    font-weight: 500;
+  }
+
+  h1 {
+    font-size: var(--prose-h1);
+    margin-top: 1rem;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+</style>

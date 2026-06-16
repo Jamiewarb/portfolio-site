@@ -2,6 +2,8 @@ export const ROUTES = {
   home: '/',
   me: '/me/',
   writing: '/writing/',
+  topics: '/topics/',
+  topic: (slug: string) => `/topics/${slug}/`,
   writingPost: (slug: string) => `/writing/${slug}/`,
   notes: '/notes/',
   projects: '/projects/',

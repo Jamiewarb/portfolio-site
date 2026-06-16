@@ -1,0 +1,222 @@
+---
+import Search from '@lucide/astro/icons/search';
+import WritingList from '@/components/WritingList.astro';
+import WritingListItem from '@/components/WritingListItem.astro';
+import { getPostsWithReadingTime, groupPostsByYear, type BlogPost } from '@/lib/blog';
+
+interface Props {
+  posts: BlogPost[];
+}
+
+const { posts } = Astro.props;
+const postsWithReadingTime = await getPostsWithReadingTime(posts);
+const readingTimeById = new Map(
+  postsWithReadingTime.map(({ post, minutesRead }) => [post.id, minutesRead]),
+);
+const yearGroups = groupPostsByYear(posts);
+const postCount = posts.length;
+const postCountLabel = postCount === 1 ? 'post' : 'posts';
+
+function searchTextForPost(post: BlogPost): string {
+  const tags = (post.data.tags ?? []).join(' ');
+  return [post.data.title, post.data.description, tags].join(' ').toLowerCase();
+}
+---
+
+<div class="writing-archive" data-writing-archive>
+  <div class="writing-toolbar">
+    <label class="writing-search">
+      <Search size={18} stroke-width={2} aria-hidden="true" class="writing-search-icon" />
+      <span class="sr-only">Search posts</span>
+      <input
+        type="search"
+        class="writing-search-input"
+        placeholder={`Search ${postCount} ${postCountLabel}...`}
+        autocomplete="off"
+        spellcheck="false"
+        data-writing-search
+      />
+    </label>
+  </div>
+
+  <p class="writing-no-results" hidden data-writing-no-results>
+    Sorry, nothing matched that search.
+  </p>
+
+  {
+    yearGroups.length > 0 ? (
+      <div class="writing-years" data-writing-years>
+        {yearGroups.map((group) => (
+          <section
+            class="writing-year"
+            aria-labelledby={`writing-year-${group.year}`}
+            data-writing-year
+          >
+            <div class="writing-year-header">
+              <h2 id={`writing-year-${group.year}`}>{group.year}</h2>
+              <span class="writing-year-count" data-writing-year-count>
+                {group.posts.length} {group.posts.length === 1 ? 'post' : 'posts'}
+              </span>
+            </div>
+            <WritingList>
+              {group.posts.map((post) => (
+                <li data-writing-post data-search-text={searchTextForPost(post)}>
+                  <WritingListItem post={post} minutesRead={readingTimeById.get(post.id)} />
+                </li>
+              ))}
+            </WritingList>
+          </section>
+        ))}
+      </div>
+    ) : (
+      <p class="writing-empty">No articles yet.</p>
+    )
+  }
+</div>
+
+<script>
+  function initWritingArchive(root: HTMLElement) {
+    const searchInput = root.querySelector<HTMLInputElement>('[data-writing-search]');
+    const noResults = root.querySelector<HTMLElement>('[data-writing-no-results]');
+    const yearSections = Array.from(root.querySelectorAll<HTMLElement>('[data-writing-year]'));
+
+    if (!searchInput || yearSections.length === 0) {
+      return;
+    }
+
+    const filterPosts = () => {
+      const query = searchInput.value.trim().toLowerCase();
+      let visibleCount = 0;
+
+      for (const section of yearSections) {
+        const posts = Array.from(section.querySelectorAll<HTMLElement>('[data-writing-post]'));
+        let sectionVisibleCount = 0;
+
+        for (const post of posts) {
+          const searchText = post.dataset.searchText ?? '';
+          const matches = query === '' || searchText.includes(query);
+          post.hidden = !matches;
+
+          if (matches) {
+            sectionVisibleCount += 1;
+            visibleCount += 1;
+          }
+        }
+
+        section.hidden = sectionVisibleCount === 0;
+
+        const countBadge = section.querySelector<HTMLElement>('[data-writing-year-count]');
+        if (countBadge) {
+          const label = sectionVisibleCount === 1 ? 'post' : 'posts';
+          countBadge.textContent = `${sectionVisibleCount} ${label}`;
+        }
+      }
+
+      if (noResults) {
+        noResults.hidden = query === '' || visibleCount > 0;
+      }
+    };
+
+    searchInput.addEventListener('input', filterPosts);
+    searchInput.addEventListener('search', filterPosts);
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-writing-archive]').forEach(initWritingArchive);
+</script>
+
+<style>
+  @reference "../styles/global.css";
+
+  .writing-toolbar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 4rem;
+  }
+
+  .writing-search {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 28rem;
+  }
+
+  .writing-search-icon {
+    position: absolute;
+    top: 50%;
+    left: 0.85rem;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    pointer-events: none;
+  }
+
+  .writing-search-input {
+    width: 100%;
+    border: 1px solid var(--content-border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--color-neutral-100);
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.4;
+    padding: 0.7rem 0.85rem 0.7rem 2.5rem;
+  }
+
+  .writing-search-input:focus-visible {
+    outline: 2px solid var(--link-color);
+    outline-offset: 2px;
+  }
+
+  .dark .writing-search-input {
+    background-color: var(--color-neutral-800);
+  }
+
+  .writing-years {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .writing-year-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .writing-year-header h2 {
+    margin: 0;
+    font-size: 2rem;
+    line-height: 1.1;
+  }
+
+  .writing-year-count {
+    border: 1px solid var(--content-border-color);
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--text-muted);
+  }
+
+  .writing-no-results,
+  .writing-empty {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

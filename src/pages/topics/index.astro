@@ -1,0 +1,118 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import { getTopicTagGroups, tagToSlug } from '@/lib/blog';
+import { ROUTES } from '@/constants/routes';
+
+const topicGroups = await getTopicTagGroups();
+---
+
+<BaseLayout title="Topics">
+  <PageHero title="Topics">
+    <p class="description">
+      All the topics I've covered. I write about front and backend software development,
+      design, architecture, and personal topics.
+    </p>
+  </PageHero>
+
+  {
+    topicGroups.length > 0 ? (
+      <div class="topics-sections">
+        {topicGroups.map((group) => (
+          <section class="topics-section" aria-labelledby={`topics-${group.letter}`}>
+            <h2 id={`topics-${group.letter}`}>{group.letter}</h2>
+            <ul class="topics-grid">
+              {group.tags.map((tag) => (
+                <li>
+                  <a class="topic-card" href={ROUTES.topic(tagToSlug(tag.name))}>
+                    <span class="topic-name">{tag.name}</span>
+                    <span class="topic-count">
+                      {tag.count} {tag.count === 1 ? 'post' : 'posts'}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    ) : (
+      <p class="topics-empty">No topics yet.</p>
+    )
+  }
+</BaseLayout>
+
+<style>
+  @reference "../../styles/global.css";
+
+  .description {
+    margin: 0 0 1.25rem;
+    max-width: 600px;
+
+    @variant md {
+      font-size: 1.325rem;
+    }
+  }
+
+  .topics-sections {
+    margin-top: 3rem;
+  }
+
+  .topics-section + .topics-section {
+    margin-top: 2.25rem;
+  }
+
+  .topics-section h2 {
+    margin: 0 0 1rem;
+    font-size: 2rem;
+    line-height: 1.1;
+  }
+
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 14rem));
+    gap: 0.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .topic-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    border: 1px solid var(--content-border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--bg-color);
+    padding: 0.7rem 0.8rem;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .topic-card:hover,
+  .topic-card:focus-visible {
+    background-color: var(--link-highlight-color);
+    text-decoration: none;
+  }
+
+  .topic-name {
+    font-size: 1.125rem;
+    line-height: 1.2;
+  }
+
+  .topic-count {
+    border: 1px solid var(--content-border-color);
+    border-radius: 999px;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--text-muted);
+  }
+
+  .topics-empty {
+    margin-top: 2rem;
+    color: var(--text-muted);
+  }
+</style>

@@ -3,62 +3,62 @@ import { ROUTES } from '../constants/routes';
 ---
 
 <a class="skip-link" href={ROUTES.mainContent}>
-	<span class="skip-link-sign">
-		<span class="skip-link-stem" aria-hidden="true"></span>
-		<span class="skip-link-label">
-			Skip to<br />content
-		</span>
-	</span>
+  <span class="skip-link-sign">
+    <span class="skip-link-stem" aria-hidden="true"></span>
+    <span class="skip-link-label">
+      Skip to<br />content
+    </span>
+  </span>
 </a>
 
 <style>
-	@reference "../styles/global.css";
+  @reference "../styles/global.css";
 
-	.skip-link {
-		position: fixed;
-		top: 0;
-		left: 50%;
-		z-index: 1000;
-		color: inherit;
-		text-decoration: none;
-		transform: translateX(-50%) translateY(-100%);
-		transition: transform 0.15s ease;
-	}
+  .skip-link {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    z-index: 1000;
+    color: inherit;
+    text-decoration: none;
+    transform: translateX(-50%) translateY(-100%);
+    transition: transform 0.15s ease;
+  }
 
-	.skip-link:focus {
-		transform: translateX(-50%) translateY(0);
-		outline: none;
-	}
+  .skip-link:focus {
+    transform: translateX(-50%) translateY(0);
+    outline: none;
+  }
 
-	.skip-link-sign {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
+  .skip-link-sign {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-	.skip-link-stem {
-		display: block;
-		width: 2px;
-		height: 0.875rem;
-		background-color: var(--text-color);
-	}
+  .skip-link-stem {
+    display: block;
+    width: 2px;
+    height: 0.875rem;
+    background-color: var(--text-color);
+  }
 
-	.skip-link-label {
-		display: block;
-		padding: 0.35rem 0.6rem;
-		border: 2px solid var(--text-color);
-		border-radius: var(--border-radius);
-		background-color: var(--bg-color);
-		color: var(--text-color);
-		font-family: var(--font-sans);
-		font-size: 0.8125rem;
-		font-weight: 600;
-		line-height: 1.2;
-		text-align: center;
-	}
+  .skip-link-label {
+    display: block;
+    padding: 0.35rem 0.6rem;
+    border: 2px solid var(--text-color);
+    border-radius: var(--border-radius);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+  }
 
-	.skip-link:focus-visible .skip-link-label {
-		outline: 2px solid var(--link-color);
-		outline-offset: 2px;
-	}
+  .skip-link:focus-visible .skip-link-label {
+    outline: 2px solid var(--link-color);
+    outline-offset: 2px;
+  }
 </style>

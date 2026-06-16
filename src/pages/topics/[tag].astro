@@ -1,0 +1,101 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import WritingList from '@/components/WritingList.astro';
+import WritingListItem from '@/components/WritingListItem.astro';
+import { getAllTopicsWithPosts, groupPostsByYear } from '@/lib/blog';
+import { ROUTES } from '@/constants/routes';
+
+export async function getStaticPaths() {
+  const topics = await getAllTopicsWithPosts();
+
+  return topics.map((topic) => ({
+    params: { tag: topic.slug },
+    props: topic,
+  }));
+}
+
+const topic = Astro.props;
+const postCount = topic.posts.length;
+const postCountLabel = `${postCount} ${postCount === 1 ? 'post' : 'posts'}`;
+const yearGroups = groupPostsByYear(topic.posts);
+---
+
+<BaseLayout title={topic.name}>
+  <PageHero title={topic.name}>
+    <nav slot="eyebrow" class="topic-breadcrumb" aria-label="Breadcrumb">
+      <a class="link" href={ROUTES.topics}>Topics</a>
+      <span class="topic-breadcrumb-separator" aria-hidden="true">/</span>
+      <span>{postCountLabel}</span>
+    </nav>
+  </PageHero>
+
+  <div class="topic-years">
+    {
+      yearGroups.map((group) => (
+        <section class="topic-year" aria-labelledby={`topic-year-${group.year}`}>
+          <div class="topic-year-header">
+            <h2 id={`topic-year-${group.year}`}>{group.year}</h2>
+            <span class="topic-year-count">
+              {group.posts.length} {group.posts.length === 1 ? 'post' : 'posts'}
+            </span>
+          </div>
+          <WritingList>
+            {group.posts.map((post) => (
+              <li>
+                <WritingListItem post={post} />
+              </li>
+            ))}
+          </WritingList>
+        </section>
+      ))
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  @reference "../../styles/global.css";
+
+  .topic-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-muted);
+  }
+
+  .topic-breadcrumb-separator {
+    color: var(--text-color);
+  }
+
+  .topic-years {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .topic-year-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .topic-year-header h2 {
+    margin: 0;
+    font-size: 2rem;
+    line-height: 1.1;
+  }
+
+  .topic-year-count {
+    border: 1px solid var(--content-border-color);
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--text-muted);
+  }
+</style>

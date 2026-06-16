@@ -1,0 +1,78 @@
+---
+import { humanReadableDate } from '@/helpers/datetime';
+import { articleDate, type BlogPost } from '@/lib/blog';
+import { ROUTES } from '@/constants/routes';
+
+interface Props {
+  post: BlogPost;
+  minutesRead?: string;
+  showExcerpt?: boolean;
+}
+
+const { post, minutesRead, showExcerpt = true } = Astro.props;
+
+const displayDate = articleDate(post);
+const formattedDate = humanReadableDate(displayDate);
+---
+
+<article class="blog">
+  <a href={ROUTES.writingPost(post.id)} class="blog-link">
+    <div class="blog-date">
+      <time datetime={displayDate.toISOString()}>{formattedDate}</time>
+      {minutesRead && <span> · {minutesRead}</span>}
+    </div>
+    <h3 class="blog-title">{post.data.title}</h3>
+    {showExcerpt && <p class="blog-excerpt">{post.data.description}</p>}
+  </a>
+</article>
+
+<style>
+  @reference "../styles/global.css";
+
+  .blog {
+    margin: 0;
+  }
+
+  .blog-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .blog-link:hover,
+  .blog-link:focus-visible {
+    background-color: var(--link-highlight-color);
+    text-decoration: none;
+  }
+
+  .blog-date {
+    display: block;
+    margin: 0 0 0.2rem;
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .blog-title {
+    margin: 0 0 0.35rem;
+    font-family: var(--font-sans);
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.35;
+
+    @variant md {
+      font-size: 1.375rem;
+    }
+  }
+
+  .blog-excerpt {
+    margin: 0;
+    max-width: 42rem;
+    line-height: 1.5;
+    font-size: 1.125rem;
+  }
+</style>
