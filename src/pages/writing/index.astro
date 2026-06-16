@@ -1,19 +1,24 @@
 ---
-import BookOpen from '@lucide/astro/icons/book-open';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/PageHero.astro';
 import WritingArchive from '@/components/WritingArchive.astro';
 import { getPublishedBlogPosts } from '@/lib/blog';
 import { ROUTES } from '@/constants/routes';
+import { WRITING_DESCRIPTION, WRITING_TITLE } from '@/config/site';
+import { collectionPageSchema, pageTitle } from '@/lib/seo';
 
 const posts = await getPublishedBlogPosts();
+
+const jsonLd = collectionPageSchema(Astro.site!, WRITING_TITLE, WRITING_DESCRIPTION);
 ---
 
-<BaseLayout title="Writing">
-  <PageHero title="Writing">
-    <p class="description">
-      Original articles, thoughts, and insights on engineering, leadership, and my life.
-    </p>
+<BaseLayout
+  title={pageTitle(WRITING_TITLE)}
+  description={WRITING_DESCRIPTION}
+  jsonLd={jsonLd}
+>
+  <PageHero title={WRITING_TITLE}>
+    <p class="description">{WRITING_DESCRIPTION}</p>
 
     <a class="link topics-link" href={ROUTES.topics}>See all topics</a>
   </PageHero>
@@ -23,12 +28,6 @@ const posts = await getPublishedBlogPosts();
 
 <style>
   @reference "../../styles/global.css";
-
-  .writing-eyebrow {
-    display: inline-flex;
-    margin: 0 0 0.75rem;
-    color: var(--text-color);
-  }
 
   .description {
     margin: 0;

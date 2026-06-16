@@ -3,16 +3,21 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/PageHero.astro';
 import { getTopicTagGroups, tagToSlug } from '@/lib/blog';
 import { ROUTES } from '@/constants/routes';
+import { TOPICS_DESCRIPTION, TOPICS_TITLE } from '@/config/site';
+import { collectionPageSchema, pageTitle } from '@/lib/seo';
 
 const topicGroups = await getTopicTagGroups();
+
+const jsonLd = collectionPageSchema(Astro.site!, TOPICS_TITLE, TOPICS_DESCRIPTION, ROUTES.topics);
 ---
 
-<BaseLayout title="Topics">
-  <PageHero title="Topics">
-    <p class="description">
-      All the topics I've covered. I write about front and backend software development,
-      design, architecture, and personal topics.
-    </p>
+<BaseLayout
+  title={pageTitle(TOPICS_TITLE)}
+  description={TOPICS_DESCRIPTION}
+  jsonLd={jsonLd}
+>
+  <PageHero title={TOPICS_TITLE}>
+    <p class="description">{TOPICS_DESCRIPTION}</p>
   </PageHero>
 
   {
@@ -46,7 +51,7 @@ const topicGroups = await getTopicTagGroups();
   @reference "../../styles/global.css";
 
   .description {
-    margin: 0 0 1.25rem;
+    margin: 0;
     max-width: 600px;
 
     @variant md {

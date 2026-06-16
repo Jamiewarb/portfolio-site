@@ -1,12 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../config/site';
+import { HOME_DESCRIPTION, HOME_TITLE } from '../config/site';
 import PageHero from '../components/PageHero.astro';
 import RecentWriting from '../components/RecentWriting.astro';
 import { ROUTES } from '../constants/routes';
+import { absoluteUrl, websiteSchema } from '../lib/seo';
+
+const logoUrl = absoluteUrl('/favicon.svg', Astro.site!);
+const jsonLd = websiteSchema(Astro.site!, logoUrl);
 ---
 
-<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+<BaseLayout title={HOME_TITLE} description={HOME_DESCRIPTION} jsonLd={jsonLd}>
   <PageHero type="index" title="I'm Jamie">
     <p class="description">
       I'm a software engineer, engineering leader, and proud father. I've been making websites

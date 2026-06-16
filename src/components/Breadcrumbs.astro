@@ -1,0 +1,110 @@
+---
+export interface BreadcrumbLink {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  /** Linkable ancestor segments. Omit the current page when using `pageTitle`. */
+  items: BreadcrumbLink[];
+  /** When set, renders as the final breadcrumb and the page `<h1>`. */
+  pageTitle?: string;
+  pageTitleVariant?: 'article' | 'hero';
+}
+
+const { items, pageTitle, pageTitleVariant = 'article' } = Astro.props;
+---
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol class:list={[{ 'has-page-title': pageTitle }]}>
+    {
+      pageTitle ? (
+        <>
+          {items.map((item) => (
+            <li class="ancestor">
+              <a href={item.href}>{item.label}</a>
+              <span class="separator" aria-hidden="true">
+                /
+              </span>
+            </li>
+          ))}
+          <li class="current">
+            <h1 class:list={['page-title', pageTitleVariant]} aria-current="page">
+              {pageTitle}
+            </h1>
+          </li>
+        </>
+      ) : (
+        items.map((item, index) => (
+          <li>
+            {item.href ? (
+              <a href={item.href}>{item.label}</a>
+            ) : (
+              <span aria-current="page">{item.label}</span>
+            )}
+            {index < items.length - 1 && <span class="separator" aria-hidden="true">/</span>}
+          </li>
+        ))
+      )
+    }
+  </ol>
+</nav>
+
+<style>
+  .breadcrumbs {
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+  }
+
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.35rem;
+  }
+
+  .current {
+    flex-basis: 100%;
+  }
+
+  a {
+    color: var(--link-color);
+    text-decoration: none;
+  }
+
+  a:hover,
+  a:focus-visible {
+    text-decoration: underline;
+  }
+
+  .page-title {
+    margin: 0.25rem 0 0;
+    line-height: 1.1;
+  }
+
+  .page-title.article {
+    font-size: var(--prose-h1);
+  }
+
+  .page-title.hero {
+    font-size: 3.125rem;
+    margin-bottom: 1.5rem;
+  }
+
+  [aria-current='page']:not(.page-title) {
+    color: var(--text-muted);
+  }
+
+  .separator {
+    color: var(--text-muted);
+  }
+</style>
