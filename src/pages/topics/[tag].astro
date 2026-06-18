@@ -6,12 +6,7 @@ import WritingListItem from '@/components/WritingListItem.astro';
 import { getAllTopicsWithPosts, groupPostsByYear } from '@/lib/blog';
 import { ROUTES } from '@/constants/routes';
 import { TOPICS_TITLE } from '@/config/site';
-import {
-  breadcrumbSchema,
-  collectionPageSchema,
-  normalizeJsonLd,
-  pageTitle,
-} from '@/lib/seo';
+import { breadcrumbSchema, collectionPageSchema, normalizeJsonLd, pageTitle } from '@/lib/seo';
 
 export async function getStaticPaths() {
   const topics = await getAllTopicsWithPosts();
@@ -43,11 +38,7 @@ const jsonLd = normalizeJsonLd([
 ---
 
 <BaseLayout title={pageTitle(topic.name)} description={description} jsonLd={jsonLd}>
-  <Breadcrumbs
-    items={breadcrumbAncestors}
-    pageTitle={topic.name}
-    pageTitleVariant="hero"
-  />
+  <Breadcrumbs items={breadcrumbAncestors} pageTitle={topic.name} pageTitleVariant="hero" />
   <p class="description">{postCountLabel}</p>
 
   <div class="topic-years">

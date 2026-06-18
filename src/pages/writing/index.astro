@@ -12,11 +12,7 @@ const posts = await getPublishedBlogPosts();
 const jsonLd = collectionPageSchema(Astro.site!, WRITING_TITLE, WRITING_DESCRIPTION);
 ---
 
-<BaseLayout
-  title={pageTitle(WRITING_TITLE)}
-  description={WRITING_DESCRIPTION}
-  jsonLd={jsonLd}
->
+<BaseLayout title={pageTitle(WRITING_TITLE)} description={WRITING_DESCRIPTION} jsonLd={jsonLd}>
   <PageHero title={WRITING_TITLE}>
     <p class="description">{WRITING_DESCRIPTION}</p>
 

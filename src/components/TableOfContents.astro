@@ -3,8 +3,8 @@ import type { MarkdownHeading } from 'astro';
 import { buildTableOfContentsHtml } from '../lib/table-of-contents';
 
 interface Props {
-	headings: MarkdownHeading[];
-	maxDepth?: number;
+  headings: MarkdownHeading[];
+  maxDepth?: number;
 }
 
 const { headings, maxDepth = 3 } = Astro.props;
@@ -12,17 +12,17 @@ const tocHtml = buildTableOfContentsHtml(headings, maxDepth);
 ---
 
 {
-	tocHtml && (
-		<>
-			<h2>Table of Contents</h2>
-			<nav class="table-of-contents" aria-label="Table of contents">
-				<ul>
-					<li>
-						<a href="#introduction">Introduction</a>
-					</li>
-				</ul>
-				<div set:html={tocHtml} />
-			</nav>
-		</>
-	)
+  tocHtml && (
+    <>
+      <h2>Table of Contents</h2>
+      <nav class="table-of-contents" aria-label="Table of contents">
+        <ul>
+          <li>
+            <a href="#introduction">Introduction</a>
+          </li>
+        </ul>
+        <div set:html={tocHtml} />
+      </nav>
+    </>
+  )
 }

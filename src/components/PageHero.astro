@@ -32,6 +32,49 @@ const { type, title } = Astro.props;
     margin-top: 2rem;
   }
 
+  .page-hero.index .wrapper {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 0.5rem;
+
+    @variant md {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 3rem;
+      width: 100%;
+    }
+  }
+
+  .image-container:empty {
+    display: none;
+  }
+
+  .page-hero.index .image-container {
+    @variant md {
+      position: relative;
+      flex-shrink: 0;
+      margin-top: 4rem;
+    }
+  }
+
+  .page-hero.index :global(.hero-image) {
+    display: block;
+    position: relative;
+    z-index: 1;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+
+    @variant md {
+      width: 250px;
+      height: 250px;
+    }
+  }
+
   h1 {
     font-size: 3.125rem;
     margin-bottom: 1.5rem;

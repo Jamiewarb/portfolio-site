@@ -42,7 +42,11 @@ const { items, pageTitle, pageTitleVariant = 'article' } = Astro.props;
             ) : (
               <span aria-current="page">{item.label}</span>
             )}
-            {index < items.length - 1 && <span class="separator" aria-hidden="true">/</span>}
+            {index < items.length - 1 && (
+              <span class="separator" aria-hidden="true">
+                /
+              </span>
+            )}
           </li>
         ))
       )

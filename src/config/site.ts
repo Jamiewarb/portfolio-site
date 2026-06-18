@@ -11,9 +11,9 @@ export const TWITTER_HANDLE = '@jamiewarb';
 /** @TODO Use ROUTES.me when the about page ships; homepage until then. */
 export const AUTHOR_PROFILE_PATH = ROUTES.home;
 
-export const HOME_TITLE = 'Jamie Warburton — Software engineer & leader';
+export const HOME_TITLE = "Jamie Warburton's Portfolio";
 export const HOME_DESCRIPTION =
-  "Software engineer, engineering leader, and proud father. Writing, projects, and things I've been working on since 2010.";
+  "I'm a software engineer, engineering leader, and proud father. Here you'll find my writing, projects, talks, and other things I've been working on or involved in.";
 
 export const WRITING_TITLE = 'Writing';
 export const WRITING_DESCRIPTION =

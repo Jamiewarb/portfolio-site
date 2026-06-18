@@ -8,14 +8,15 @@ import { collectionPageSchema, pageTitle } from '@/lib/seo';
 
 const topicGroups = await getTopicTagGroups();
 
-const jsonLd = collectionPageSchema(Astro.site!, TOPICS_TITLE, TOPICS_DESCRIPTION, ROUTES.topics);
+const jsonLd = collectionPageSchema(
+  Astro.site!,
+  TOPICS_TITLE,
+  TOPICS_DESCRIPTION,
+  ROUTES.topics,
+);
 ---
 
-<BaseLayout
-  title={pageTitle(TOPICS_TITLE)}
-  description={TOPICS_DESCRIPTION}
-  jsonLd={jsonLd}
->
+<BaseLayout title={pageTitle(TOPICS_TITLE)} description={TOPICS_DESCRIPTION} jsonLd={jsonLd}>
   <PageHero title={TOPICS_TITLE}>
     <p class="description">{TOPICS_DESCRIPTION}</p>
   </PageHero>

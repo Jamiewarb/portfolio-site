@@ -1,9 +1,4 @@
-import {
-  AUTHOR_PROFILE_PATH,
-  SITE_AUTHOR,
-  SITE_DESCRIPTION,
-  SITE_TITLE,
-} from '@/config/site';
+import { AUTHOR_PROFILE_PATH, SITE_AUTHOR, SITE_DESCRIPTION, SITE_TITLE } from '@/config/site';
 import { ROUTES } from '@/constants/routes';
 
 export function absoluteUrl(path: string, site: URL | string): string {

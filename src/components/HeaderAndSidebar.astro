@@ -86,7 +86,13 @@ function isActive(href: string) {
     <section class="sidebar-section">
       <div class="sidebar-content">
         <p>
-          I'm <a href={ROUTES.me} class="link">Jamie</a>, a software engineer and father.
+          I'm <a href={ROUTES.me} class="link">Jamie</a>, a software engineer, currently
+          building websites for non-profits at <a
+            href="https://www.hexdigital.com.com"
+            target="_blank"
+            rel="noreferrer"
+            class="link">Hex Digital</a
+          >.
         </p>
       </div>
     </section>
@@ -105,7 +111,6 @@ function isActive(href: string) {
     </section>
 
     <section class="sidebar-section">
-      <h2>Get Updates</h2>
       <div class="sidebar-links">
         <a href={ROUTES.external.newsletter} target="_blank" rel="noreferrer">
           <span>Newsletter</span>
@@ -446,7 +451,7 @@ function isActive(href: string) {
     gap: 0.5rem;
 
     a {
-      font-size: 1.125rem;
+      font-size: 1rem;
     }
   }
 

@@ -48,9 +48,7 @@ const {
 const canonicalURL = absoluteUrl(ROUTES.writingPost(id), Astro.site!);
 const logoUrl = absoluteUrl('/favicon.svg', Astro.site!);
 const socialImage = ogImage ?? heroImage;
-const imageUrl = socialImage
-  ? new URL(socialImage.src, Astro.site).href
-  : undefined;
+const imageUrl = socialImage ? new URL(socialImage.src, Astro.site).href : undefined;
 const authorName = postAuthor ?? SITE_AUTHOR;
 const modifiedTime = updatedDate ?? pubDate;
 

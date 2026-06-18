@@ -5,6 +5,8 @@ import PageHero from '../components/PageHero.astro';
 import RecentWriting from '../components/RecentWriting.astro';
 import { ROUTES } from '../constants/routes';
 import { absoluteUrl, websiteSchema } from '../lib/seo';
+import { Image } from 'astro:assets';
+import headshot from '@/assets/jamie-warburton-headshot-software-engineering-leader.png';
 
 const logoUrl = absoluteUrl('/favicon.svg', Astro.site!);
 const jsonLd = websiteSchema(Astro.site!, logoUrl);
@@ -14,29 +16,40 @@ const jsonLd = websiteSchema(Astro.site!, logoUrl);
   <PageHero type="index" title="I'm Jamie">
     <p class="description">
       I'm a software engineer, engineering leader, and proud father. I've been making websites
-      and products since 2010, and some of them have won&nbsp;awards!
+      and products since 2005, and some of them have won&nbsp;awards!
     </p>
     <p class="description">
       Here you'll find my writing, projects, talks, and other things I've been working on or
       involved in.
     </p>
-    <!--<p class="links">
+    <p class="links">
       <a class="link" href={ROUTES.me}>About Me</a>
-      <a class="link" href={ROUTES.external.newsletter} rel="noreferrer" target="_blank">
+      <!--<a class="link" href={ROUTES.external.newsletter} rel="noreferrer" target="_blank">
         Email Newsletter
-      </a>
-    </p> -->
+      </a>-->
+    </p>
+
+    <Image
+      slot="image"
+      src={headshot}
+      alt="Jamie Warburton headshot"
+      width={500}
+      height={500}
+      class="hero-image"
+    />
   </PageHero>
 
-  <section>
-    <h2>Recent Writing</h2>
-    <RecentWriting limit={5} />
-  </section>
+  <div class="home-sections">
+    <section>
+      <h2>Recent Writing</h2>
+      <RecentWriting limit={5} />
+    </section>
 
-  <section>
-    <h2>Highlighted Projects</h2>
-    <p class="projects-empty">No projects yet.</p>
-  </section>
+    <section>
+      <h2>Projects</h2>
+      <p class="projects-empty">No projects yet.</p>
+    </section>
+  </div>
 </BaseLayout>
 
 <style>
@@ -60,8 +73,25 @@ const jsonLd = websiteSchema(Astro.site!, logoUrl);
     font-size: 1.125rem;
   }
 
-  section {
+  .home-sections {
+    display: grid;
+    gap: 3rem;
     margin-bottom: 4rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    @variant lg {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--wrapper-padding);
+      align-items: start;
+    }
+  }
+
+  .home-sections section {
+    margin: 0;
+    min-width: 0;
   }
 
   h2 {
