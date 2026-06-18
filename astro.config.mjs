@@ -12,6 +12,12 @@ import { remarkReadingTime } from './remark-reading-time.mjs';
 export default defineConfig({
   site: 'https://jamiewarburton.dev',
 
+  prefetch: {
+    prefetchAll: true,
+  },
+
+  experimental: { clientPrerender: true },
+
   fonts: [
     {
       provider: fontProviders.google(),
