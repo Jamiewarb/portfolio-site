@@ -152,10 +152,13 @@ function searchTextForPost(post: BlogPost): string {
   }
 
   .writing-search-input {
+    --writing-search-bg: var(--color-neutral-100);
+    --writing-search-placeholder: var(--color-neutral-600);
+
     width: 100%;
     border: 1px solid var(--content-border-color);
     border-radius: var(--border-radius);
-    background-color: var(--color-neutral-100);
+    background-color: var(--writing-search-bg);
     color: var(--text-color);
     font-family: inherit;
     font-size: 1rem;
@@ -163,13 +166,21 @@ function searchTextForPost(post: BlogPost): string {
     padding: 0.7rem 0.85rem 0.7rem 2.5rem;
   }
 
+  .writing-search-input::placeholder {
+    color: var(--writing-search-placeholder);
+    opacity: 1;
+  }
+
   .writing-search-input:focus-visible {
     outline: 2px solid var(--link-color);
     outline-offset: 2px;
   }
 
-  .dark .writing-search-input {
-    background-color: var(--color-neutral-800);
+  :global(.dark) .writing-search-input {
+    --writing-search-bg: var(--color-neutral-800);
+    --writing-search-placeholder: var(--color-neutral-400);
+    border-color: var(--color-neutral-700);
+    color-scheme: dark;
   }
 
   .writing-years {
