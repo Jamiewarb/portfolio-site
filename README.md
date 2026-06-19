@@ -12,6 +12,12 @@ To clone this repo with the content submodule:
 git clone --recurse-submodules git@github.com:YOUR_USER/portfolio-site.git
 ```
 
+If you've already cloned this repo without the submodules, you can run:
+
+```
+git submodule update --init
+```
+
 ## Credits
 
 The design of this site is entirely based on Tania Rascia's portfolio site. It's a lovely, well-designed site
