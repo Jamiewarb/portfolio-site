@@ -1,4 +1,4 @@
-import defaultOgImage from '@/assets/blog-placeholder-about.jpg';
+import defaultOgImage from '@/assets/jw-social-share-og-image.png';
 import { ROUTES } from '@/constants/routes';
 
 export const SITE_TITLE = 'Jamie Warburton';
