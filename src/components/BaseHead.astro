@@ -57,7 +57,15 @@ const socialImageUrl = new URL(socialImage.src, Astro.site);
   })();
 </script>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" media="(prefers-color-scheme: light)" />
+<link
+  rel="icon"
+  type="image/svg+xml"
+  href="/favicon-light.svg"
+  media="(prefers-color-scheme: dark)"
+/>
+<link rel="icon" href="/favicon.ico" sizes="48x48" media="(prefers-color-scheme: light)" />
+<link rel="icon" href="/favicon-light.ico" sizes="48x48" media="(prefers-color-scheme: dark)" />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link
   rel="alternate"
