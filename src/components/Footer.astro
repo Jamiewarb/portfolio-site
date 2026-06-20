@@ -5,9 +5,12 @@ import { ROUTES } from '../constants/routes';
 
 <footer class="footer">
   <div class="footer-inner">
-    <nav class="footer-social lg:hidden" aria-label="Social links">
-      <a
-        href={ROUTES.external.github}
+    <div class="footer-left">
+      <a class="link footer-rss" href={ROUTES.rss}>RSS Feed</a>
+
+      <nav class="footer-social lg:hidden" aria-label="Social links">
+        <a
+          href={ROUTES.external.github}
         target="_blank"
         rel="me noopener noreferrer"
         class="footer-social-link"
@@ -58,6 +61,7 @@ import { ROUTES } from '../constants/routes';
         </svg>
       </a>
     </nav>
+    </div>
 
     <section class="footer-content">
       <p>
@@ -93,10 +97,17 @@ import { ROUTES } from '../constants/routes';
     align-items: flex-start;
     display: flex;
     justify-content: space-between;
+  }
 
-    @variant lg {
-      justify-content: flex-end;
-    }
+  .footer-left {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .footer-rss {
+    line-height: 1;
   }
 
   .footer-social {

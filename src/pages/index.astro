@@ -43,11 +43,13 @@ const jsonLd = websiteSchema(Astro.site!, logoUrl);
     <section>
       <h2>Recent Writing</h2>
       <RecentWriting limit={5} />
+      <a class="link section-link" href={ROUTES.writing}>All Writing</a>
     </section>
 
     <section>
       <h2>Projects</h2>
       <p class="projects-empty">No projects yet.</p>
+      <a class="link section-link" href={ROUTES.projects}>All Projects</a>
     </section>
   </div>
 </BaseLayout>
@@ -107,5 +109,11 @@ const jsonLd = websiteSchema(Astro.site!, logoUrl);
   .projects-empty {
     margin: 0;
     color: var(--text-muted);
+  }
+
+  .section-link {
+    display: inline-block;
+    font-size: 1.125rem;
+    margin-top: 1.25rem;
   }
 </style>
