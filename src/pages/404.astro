@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
 import { ROUTES } from '@/constants/routes';
 import { pageTitle } from '@/lib/seo';
 
@@ -9,37 +10,20 @@ const description = 'The page you are looking for could not be found.';
 
 <BaseLayout title={title} description={description} noindex>
   <div class="not-found">
-    <h1>Page not found</h1>
-    <p>{description}</p>
+    <PageHero title="Page not found">
+      <p>{description}</p>
+    </PageHero>
     <nav aria-label="Helpful links">
-      <a href={ROUTES.home}>Home</a>
-      <a href={ROUTES.writing}>Writing</a>
+      <a class="link section-link" href={ROUTES.home}>Home</a>
+      <a class="link section-link" href={ROUTES.writing}>Writing</a>
+      <a class="link section-link" href={ROUTES.projects}>Projects</a>
     </nav>
   </div>
 </BaseLayout>
 
 <style>
-  .not-found {
-    margin: 2rem 0 4rem;
-  }
-
-  h1 {
-    margin: 0 0 1rem;
-    font-size: 2rem;
-  }
-
-  p {
-    margin: 0 0 1.5rem;
-    color: var(--text-muted);
-  }
-
   nav {
     display: flex;
     gap: 1rem;
-  }
-
-  a {
-    color: var(--link-color);
-    font-weight: 500;
   }
 </style>

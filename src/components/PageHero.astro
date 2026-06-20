@@ -29,7 +29,11 @@ const { type, title } = Astro.props;
 
   .page-hero.index {
     margin-bottom: 4rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
+
+    @variant md {
+      margin-top: 2rem;
+    }
   }
 
   .page-hero.index .wrapper {
