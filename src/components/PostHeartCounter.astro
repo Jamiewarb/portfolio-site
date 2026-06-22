@@ -1,0 +1,20 @@
+---
+import LikeButton from './likes/LikeButton.tsx';
+
+interface Props {
+  postId: string;
+  initialCount?: number;
+}
+
+const { postId, initialCount = 0 } = Astro.props;
+---
+
+<div class="post-heart-counter">
+  <LikeButton client:load postId={postId} initialCount={initialCount} />
+</div>
+
+<style>
+  .post-heart-counter {
+    width: fit-content;
+  }
+</style>

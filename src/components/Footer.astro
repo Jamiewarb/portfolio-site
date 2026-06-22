@@ -6,7 +6,25 @@ import { ROUTES } from '../constants/routes';
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-left">
-      <a class="link footer-rss" href={ROUTES.rss}>RSS Feed</a>
+      <a class="link footer-rss" href={ROUTES.rss}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M4 11a9 9 0 0 1 9 9"></path>
+          <path d="M4 4a16 16 0 0 1 16 16"></path>
+          <circle cx="5" cy="19" r="1"></circle>
+        </svg>
+        RSS Feed
+      </a>
 
       <nav class="footer-social lg:hidden" aria-label="Social links">
         <a
@@ -107,6 +125,9 @@ import { ROUTES } from '../constants/routes';
   }
 
   .footer-rss {
+    align-items: center;
+    display: inline-flex;
+    gap: 0.375rem;
     line-height: 1;
   }
 

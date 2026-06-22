@@ -21,6 +21,7 @@ const blog = defineCollection({
       ogTitle: z.string().optional(),
       ogDescription: z.string().optional(),
       ogImage: z.optional(image()),
+      postId: z.string(),
     }),
 });
 

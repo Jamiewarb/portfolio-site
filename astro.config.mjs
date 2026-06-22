@@ -1,6 +1,8 @@
 // @ts-check
 
 import mdx from '@astrojs/mdx';
+import netlify from '@astrojs/netlify';
+import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import { unified } from '@astrojs/markdown-remark';
 import { defineConfig, fontProviders } from 'astro/config';
@@ -11,6 +13,8 @@ import { remarkReadingTime } from './remark-reading-time.mjs';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://jamiewarburton.dev',
+  output: 'static',
+  adapter: netlify(),
 
   prefetch: {
     prefetchAll: true,
@@ -26,7 +30,7 @@ export default defineConfig({
       fallbacks: ['sans-serif'],
     },
   ],
-  integrations: [mdx(), sitemap()],
+  integrations: [mdx(), sitemap(), react()],
 
   markdown: {
     processor: unified({

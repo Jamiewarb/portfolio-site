@@ -5,9 +5,10 @@ import { getPostsWithReadingTime, getPublishedBlogPosts } from '@/lib/blog';
 
 interface Props {
   limit?: number;
+  loadIndexStart?: number;
 }
 
-const { limit = 5 } = Astro.props;
+const { limit = 5, loadIndexStart } = Astro.props;
 
 const posts = await getPublishedBlogPosts({ limit });
 const postsWithReadingTime = await getPostsWithReadingTime(posts);
@@ -16,8 +17,11 @@ const postsWithReadingTime = await getPostsWithReadingTime(posts);
 {
   postsWithReadingTime.length > 0 ? (
     <WritingList>
-      {postsWithReadingTime.map(({ post, minutesRead }) => (
-        <li>
+      {postsWithReadingTime.map(({ post, minutesRead }, index) => (
+        <li
+          class:list={[{ 'page-load-item': loadIndexStart !== undefined }]}
+          style={loadIndexStart !== undefined ? `--load-index: ${loadIndexStart + index}` : undefined}
+        >
           <WritingListItem post={post} minutesRead={minutesRead} />
         </li>
       ))}
