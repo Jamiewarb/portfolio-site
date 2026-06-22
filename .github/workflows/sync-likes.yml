@@ -1,0 +1,38 @@
+name: sync likes to git
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: sync-likes
+  cancel-in-progress: false
+
+jobs:
+  sync-likes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: sync likes from Upstash to likes.json
+        run: pnpm sync:likes
+        env:
+          UPSTASH_LIKES_REST_URL: ${{ secrets.UPSTASH_LIKES_REST_URL }}
+          UPSTASH_LIKES_WRITE_TOKEN: ${{ secrets.UPSTASH_LIKES_WRITE_TOKEN }}
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'chore(likes): sync counts from Upstash'
+          file_pattern: src/data/likes.json

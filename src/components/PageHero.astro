@@ -11,7 +11,12 @@ const { type, title } = Astro.props;
   <div class="wrapper">
     <div>
       <slot name="eyebrow" />
-      <h1>{title}</h1>
+      <h1
+        class:list={[{ 'page-load-item': type === 'index' }]}
+        style={type === 'index' ? '--load-index: 0' : undefined}
+      >
+        {title}
+      </h1>
       <slot />
     </div>
     <div class="image-container">

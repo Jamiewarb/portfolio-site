@@ -6,10 +6,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import ArticleComments from '../components/ArticleComments.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import PostHeartCounter from '../components/PostHeartCounter.astro';
 import PostSidebar from '../components/PostSidebar.astro';
 import Divider from '../components/Divider.astro';
 import { ROUTES } from '../constants/routes';
 import { SITE_AUTHOR } from '../config/site';
+import { getArchivedLikeCount } from '../lib/likes/archived';
 import {
   absoluteUrl,
   blogPostingSchema,
@@ -39,11 +41,14 @@ const {
       ogImage,
       tags = [],
       author: postAuthor,
+      postId,
     },
   },
   headings = [],
   minutesRead,
 } = Astro.props;
+
+const initialLikeCount = getArchivedLikeCount(postId);
 
 const canonicalURL = absoluteUrl(ROUTES.writingPost(id), Astro.site!);
 const logoUrl = absoluteUrl('/favicon.svg', Astro.site!);
@@ -93,36 +98,40 @@ const jsonLd = normalizeJsonLd([
   <article>
     <Breadcrumbs items={breadcrumbAncestors} pageTitle={title} pageTitleVariant="article" />
 
-    <div class="post-meta">
-      <div class="eyebrow-meta">
-        <div class="date">
-          <FormattedDate date={articleDate(post)} />
+    <div class="mb-4 flex flex-col">
+      <div class="post-meta">
+        <div class="eyebrow-meta">
+          <div class="date">
+            <FormattedDate date={articleDate(post)} />
+          </div>
+          {
+            minutesRead && (
+              <>
+                <Divider />
+                <span class="reading-time">{minutesRead}</span>
+              </>
+            )
+          }
+          <Divider />
+          <a href="#comments" class="comments-link">Comments</a>
         </div>
+
         {
-          minutesRead && (
-            <>
-              <Divider />
-              <span class="reading-time">{minutesRead}</span>
-            </>
+          tags.length > 0 && (
+            <ul class="topic-tags">
+              {tags.map((tag) => (
+                <li>
+                  <a class="topic-tag" href={ROUTES.topic(tagToSlug(tag))}>
+                    {tag}
+                  </a>
+                </li>
+              ))}
+            </ul>
           )
         }
-        <Divider />
-        <a href="#comments" class="comments-link">Comments</a>
       </div>
 
-      {
-        tags.length > 0 && (
-          <ul class="topic-tags">
-            {tags.map((tag) => (
-              <li>
-                <a class="topic-tag" href={ROUTES.topic(tagToSlug(tag))}>
-                  {tag}
-                </a>
-              </li>
-            ))}
-          </ul>
-        )
-      }
+      <PostHeartCounter postId={postId} initialCount={initialLikeCount} />
     </div>
 
     <div class="flex flex-col gap-6">
@@ -154,8 +163,16 @@ const jsonLd = normalizeJsonLd([
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     font-size: 0.9rem;
+  }
+
+  .post-meta-start {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    flex-shrink: 0;
   }
 
   .eyebrow-meta {
