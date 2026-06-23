@@ -131,7 +131,7 @@ const jsonLd = normalizeJsonLd([
         }
       </div>
 
-      <PostHeartCounter postId={postId} initialCount={initialLikeCount} />
+      {postId && <PostHeartCounter postId={postId} initialCount={initialLikeCount} />}
     </div>
 
     <div class="flex flex-col gap-6">
