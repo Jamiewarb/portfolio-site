@@ -12,35 +12,38 @@ concurrency:
 jobs:
   sync-likes:
     runs-on: ubuntu-24.04
+
     strategy:
       matrix:
         node-version: [24]
+
     permissions:
       contents: write
+
     steps:
-      - name: Checkout
+      - name: 📥 Checkout
         uses: actions/checkout@v6
 
-      - name: Install pnpm
+      - name: 📦 Install pnpm
         uses: pnpm/action-setup@8912a9102ac27614460f54aedde9e1e7f9aec20d # v6.0.5
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: 🟢 Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      - name: Install dependencies
+      - name: 🔧 Install dependencies
         run: pnpm install
 
-      - name: Sync likes from Upstash to likes.json
+      - name: ❤️ Sync likes from Upstash to likes.json
         run: pnpm sync:likes
         env:
           UPSTASH_LIKES_REST_URL: ${{ secrets.UPSTASH_LIKES_REST_URL }}
           UPSTASH_LIKES_WRITE_TOKEN: ${{ secrets.UPSTASH_LIKES_WRITE_TOKEN }}
 
-      - name: Commit likes.json
-        uses: stefanzweifel/git-auto-commit-action@v5
+      - name: 💾 Commit likes.json
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: 'chore(likes): sync counts from Upstash'
           file_pattern: src/data/likes.json
