@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 import { syncLikeCountsToGit } from '../src/lib/likes/git/sync.ts';
 
 async function main() {
