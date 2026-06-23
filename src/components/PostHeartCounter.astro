@@ -1,17 +1,15 @@
 ---
 import LikeButton from './likes/LikeButton.tsx';
-import { cn } from '../lib/likes/cn';
 
 interface Props {
   postId: string;
   initialCount?: number;
-  className?: string;
 }
 
-const { postId, initialCount = 0, className } = Astro.props;
+const { postId, initialCount = 0 } = Astro.props;
 ---
 
-<div class={cn(className, 'post-heart-counter')}>
+<div class="post-heart-counter">
   <LikeButton client:load postId={postId} initialCount={initialCount} />
 </div>
 

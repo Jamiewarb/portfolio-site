@@ -27,7 +27,12 @@ const postsWithReadingTime = await getPostsWithReadingTime(posts);
       ))}
     </WritingList>
   ) : (
-    <p class="writing-empty">No articles yet.</p>
+    <p
+      class:list={['writing-empty', { 'page-load-item': loadIndexStart !== undefined }]}
+      style={loadIndexStart !== undefined ? `--load-index: ${loadIndexStart}` : undefined}
+    >
+      No articles yet.
+    </p>
   )
 }
 
