@@ -279,6 +279,32 @@ h6,
   text-decoration: none;
 }
 
+.social-anchor {
+  position: relative;
+  z-index: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  text-decoration: none;
+}
+
+.social-anchor-icon {
+  position: relative;
+  z-index: 1;
+  display: flex;
+}
+
+.social-anchor-circle {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.5);
+}
+
 .link:hover,
 .prose a:not(:where([class~='not-prose'], [class~='not-prose'] *)):hover {
   background-image:

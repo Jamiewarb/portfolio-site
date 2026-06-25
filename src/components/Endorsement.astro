@@ -1,0 +1,108 @@
+---
+import type { Endorsement } from '@/data/endorsements';
+
+interface Props {
+  endorsement: Endorsement;
+}
+
+const { endorsement } = Astro.props;
+const headingId = `endorsement-${endorsement.name.toLowerCase().replace(/\s+/g, '-')}`;
+---
+
+<article class="endorsement" aria-labelledby={headingId}>
+  <header class="endorsement-header">
+    <div class="endorsement-title">
+      <h2 id={headingId}>{endorsement.name}</h2>
+      {
+        endorsement.linkedin && (
+          <a
+            class="endorsement-linkedin"
+            href={endorsement.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${endorsement.name} on LinkedIn`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+              <rect width="4" height="12" x="2" y="9" />
+              <circle cx="4" cy="4" r="2" />
+            </svg>
+          </a>
+        )
+      }
+    </div>
+    <p class="endorsement-role">{endorsement.role}</p>
+  </header>
+
+  <div class="endorsement-quote">
+    {endorsement.paragraphs.map((paragraph) => <p set:html={paragraph} />)}
+  </div>
+</article>
+
+<style>
+  @reference "../styles/global.css";
+
+  .endorsement + .endorsement {
+    margin-top: 3.5rem;
+    padding-top: 3.5rem;
+    border-top: 1px solid var(--content-border-color);
+  }
+
+  .endorsement-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.35rem;
+    border-bottom: 1px solid var(--content-border-color);
+    padding-bottom: 0.5rem;
+  }
+
+  .endorsement-title h2 {
+    margin: 0;
+    font-size: var(--prose-h2);
+  }
+
+  .endorsement-linkedin {
+    display: inline-flex;
+    flex-shrink: 0;
+    padding-top: 9px;
+    color: var(--text-muted);
+    line-height: 0;
+    text-decoration: none;
+  }
+
+  .endorsement-linkedin:hover,
+  .endorsement-linkedin:focus-visible {
+    color: var(--link-color);
+  }
+
+  .endorsement-role {
+    margin: 0 0 1.25rem;
+    color: var(--text-muted);
+    font-size: 1.05rem;
+  }
+
+  .endorsement-quote {
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+
+  .endorsement-quote p {
+    margin: 0;
+  }
+
+  .endorsement-quote p + p {
+    margin-top: 1.25rem;
+  }
+</style>

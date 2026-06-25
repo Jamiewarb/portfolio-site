@@ -1,0 +1,41 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Endorsement from '@/components/Endorsement.astro';
+import PageHero from '@/components/PageHero.astro';
+import { ROUTES } from '@/constants/routes';
+import { endorsements } from '@/data/endorsements';
+import { collectionPageSchema, pageTitle } from '@/lib/seo';
+
+const title = 'Endorsements';
+const description =
+  'Kind words from colleagues and clients I have had the pleasure of working with.';
+
+const jsonLd = collectionPageSchema(Astro.site!, title, description, ROUTES.endorsements);
+---
+
+<BaseLayout title={pageTitle(title)} description={description} jsonLd={jsonLd}>
+  <PageHero title={title}>
+    <p class="description">{description}</p>
+  </PageHero>
+
+  <section class="endorsements-list" aria-label="Endorsements">
+    {endorsements.map((endorsement) => <Endorsement endorsement={endorsement} />)}
+  </section>
+</BaseLayout>
+
+<style>
+  @reference "../../styles/global.css";
+
+  .description {
+    margin: 0;
+    max-width: 600px;
+
+    @variant md {
+      font-size: 1.325rem;
+    }
+  }
+
+  .endorsements-list {
+    margin-top: 2.5rem;
+  }
+</style>

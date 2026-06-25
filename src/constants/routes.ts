@@ -7,6 +7,7 @@ export const ROUTES = {
   writingPost: (slug: string) => `/writing/${slug}/`,
   notes: '/notes/',
   projects: '/projects/',
+  endorsements: '/endorsements/',
   rss: '/rss.xml',
   mainContent: '#main-content',
   external: {

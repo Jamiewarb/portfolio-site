@@ -34,7 +34,7 @@ jobs:
           cache: 'pnpm'
 
       - name: 🔧 Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: ❤️ Sync likes from Upstash to likes.json
         run: pnpm sync:likes
