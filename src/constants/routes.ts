@@ -9,7 +9,9 @@ export const ROUTES = {
   projects: '/projects/',
   endorsements: '/endorsements/',
   rss: '/rss.xml',
+
   mainContent: '#main-content',
+
   external: {
     newsletter: 'https://jamiewarb.substack.com/',
     github: 'https://github.com/jamiewarb',

@@ -8,7 +8,7 @@ export type Endorsement = {
 export const endorsements: Endorsement[] = [
   {
     name: 'Nadia Ali',
-    role: 'Account Director',
+    role: 'Account Director, Hex Digital',
     linkedin: 'https://www.linkedin.com/in/nadia-ali-aab085b1/',
     paragraphs: [
       'Jamie essentially taught me everything I know about the world of engineering. We began working together in 2017, and it has been an absolute pleasure ever since. He met me where I was (a young Account Manager coming into a digital agency) patiently and cheerfully building upon the basic web knowledge I had at the time.',
