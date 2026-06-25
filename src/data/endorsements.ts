@@ -21,7 +21,7 @@ export const endorsements: Endorsement[] = [
     role: 'Global Technical Account Manager, Bloomberg',
     linkedin: 'https://www.linkedin.com/in/dipjhutti/',
     paragraphs: [
-      'I was fortunate enough to work with Jamie during my time at PayPal. His technical excellence, maturity and client-facing skills are at a level I would expect from someone with a number of years of experience. His enthusiasm is infectious and his attention to details is second to none. I hope one day to work with him in the future again.',
+      'I was fortunate enough to work with Jamie during my time at PayPal. His enthusiasm is infectious and his attention to details is second to none. I hope one day to work with him in the future again.',
     ],
   },
 ];

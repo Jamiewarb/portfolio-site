@@ -13,7 +13,7 @@ const description =
 const jsonLd = collectionPageSchema(Astro.site!, title, description, ROUTES.endorsements);
 ---
 
-<BaseLayout title={pageTitle(title)} description={description} jsonLd={jsonLd}>
+<BaseLayout title={pageTitle(title)} description={description} jsonLd={jsonLd} pageType="article">
   <PageHero title={title}>
     <p class="description">{description}</p>
   </PageHero>
