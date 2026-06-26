@@ -1,9 +1,9 @@
 ---
 import BookOpen from '@lucide/astro/icons/book-open';
-import CircleUser from '@lucide/astro/icons/circle-user';
-import FolderKanban from '@lucide/astro/icons/folder-kanban';
+// import CircleUser from '@lucide/astro/icons/circle-user';
+// import FolderKanban from '@lucide/astro/icons/folder-kanban';
 import Menu from '@lucide/astro/icons/menu';
-import StickyNote from '@lucide/astro/icons/sticky-note';
+// import StickyNote from '@lucide/astro/icons/sticky-note';
 import X from '@lucide/astro/icons/x';
 import { ROUTES } from '../constants/routes';
 import { SocialLink } from './social/SocialLink';
@@ -18,9 +18,9 @@ const iconProps = {
 
 const navLinks = [
   { href: ROUTES.writing, label: 'Writing', Icon: BookOpen },
-  { href: ROUTES.notes, label: 'Notes', Icon: StickyNote },
-  { href: ROUTES.projects, label: 'Projects', Icon: FolderKanban },
-  { href: ROUTES.me, label: 'About Me', Icon: CircleUser },
+  // { href: ROUTES.notes, label: 'Notes', Icon: StickyNote },
+  // { href: ROUTES.projects, label: 'Projects', Icon: FolderKanban },
+  // { href: ROUTES.me, label: 'About Me', Icon: CircleUser },
 ] as const;
 
 const currentPath = Astro.url.pathname;
