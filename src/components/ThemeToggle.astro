@@ -1,3 +1,7 @@
+---
+import { THEME } from '@/constants/theme';
+---
+
 <div
   class="theme-toggle inline-flex items-center"
   data-theme-toggle
@@ -7,7 +11,7 @@
   <button
     type="button"
     class="theme-toggle__button"
-    data-theme-value="light"
+    data-theme-value={THEME.light}
     aria-label="Light mode"
     aria-pressed="false"
   >
@@ -37,7 +41,7 @@
   <button
     type="button"
     class="theme-toggle__button"
-    data-theme-value="dark"
+    data-theme-value={THEME.dark}
     aria-label="Dark mode"
     aria-pressed="false"
   >
@@ -59,7 +63,7 @@
   <button
     type="button"
     class="theme-toggle__button"
-    data-theme-value="system"
+    data-theme-value={THEME.system}
     aria-label="System mode"
     aria-pressed="false"
   >

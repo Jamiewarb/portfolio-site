@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { useEffect, useState } from 'react';
+import { THEME } from '@/constants/theme';
 
 const SOCIAL_SPRING = {
   type: 'spring' as const,
@@ -21,7 +22,7 @@ function useIsDark() {
 
   useEffect(() => {
     const update = () => {
-      setIsDark(document.documentElement.classList.contains('dark'));
+      setIsDark(document.documentElement.classList.contains(THEME.dark));
     };
 
     update();

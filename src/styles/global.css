@@ -18,9 +18,9 @@
   --color-neutral-800: #262626;
   --color-neutral-900: #171717;
 
-  --color-link: #ff9800;
-  --color-link-highlight: #eee8d5;
-  --color-link-highlight-dark: #33302a;
+  --color-orange: #ff9800;
+  --color-orange-pale: #eee8d5;
+  --color-orange-pale-dark: #33302a;
 
   --font-heading: var(--font-rammetto-one);
   --font-sans:
@@ -46,10 +46,12 @@
   --sidebar-bg-color: var(--bg-color);
   --content-border-color: var(--color-neutral-200);
 
-  --link-color: var(--color-link);
-  --link-highlight-color: var(--color-link-highlight);
-  --toc-link-hover-bg: var(--color-link-highlight);
-  --toc-link-active-bg: var(--color-link-highlight);
+  --link-color: var(--color-orange);
+  --link-highlight-color: var(--color-orange-pale);
+  --toc-link-hover-bg: var(--color-orange-pale);
+  --toc-link-active-bg: var(--color-orange-pale);
+
+  --tooltip-band-color: var(--color-orange);
 
   --link-squiggle: url("data:image/svg+xml;charset=utf8,%3Csvg id='squiggle-link' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml-events' viewBox='0 0 20 4'%3E%3Cstyle type='text/css'%3E.squiggle{animation:shift .3s linear infinite;}@keyframes shift {from {transform:translateX(0);}to {transform:translateX(-20px);}}%3C/style%3E%3Cpath fill='none' stroke='%23ff9800' stroke-width='2' class='squiggle' d='M0,3.5 c 5,0,5,-3,10,-3 s 5,3,10,3 c 5,0,5,-3,10,-3 s 5,3,10,3'/%3E%3C/svg%3E");
 
@@ -81,9 +83,9 @@
   --sidebar-border-color: var(--color-neutral-800);
   --content-border-color: var(--color-neutral-800);
 
-  --link-highlight-color: var(--color-link-highlight-dark);
+  --link-highlight-color: var(--color-orange-pale-dark);
   --toc-link-hover-bg: var(--color-neutral-800);
-  --toc-link-active-bg: var(--color-link-highlight-dark);
+  --toc-link-active-bg: var(--color-orange-pale-dark);
 }
 
 html {
@@ -97,17 +99,17 @@ html {
 }
 
 ::view-transition-new(root) {
-  animation: 0.75s cubic-bezier(0.5, 0, 0.1, 1) theme-transition-reveal;
+  animation: 0.75s cubic-bezier(0.5, 0, 0.1, 1) theme-circle-reveal;
 }
 
-@keyframes theme-transition-reveal {
+@keyframes theme-circle-reveal {
   from {
-    clip-path: circle(0 at var(--theme-transition-x) var(--theme-transition-y));
+    clip-path: circle(0 at var(--theme-circle-x) var(--theme-circle-y));
   }
 
   to {
     clip-path: circle(
-      var(--theme-transition-radius) at var(--theme-transition-x) var(--theme-transition-y)
+      var(--theme-circle-radius) at var(--theme-circle-x) var(--theme-circle-y)
     );
   }
 }

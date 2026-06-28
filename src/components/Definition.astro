@@ -1,0 +1,84 @@
+---
+interface Props {
+  description: string;
+}
+
+const { description } = Astro.props;
+const tooltipId = `definition-${crypto.randomUUID()}`;
+---
+
+<span class="definition-term" tabindex="0" aria-describedby={tooltipId}>
+  <slot />
+  <span role="tooltip" id={tooltipId} class="definition-tooltip">{description}</span>
+</span>
+
+<style>
+  .definition-term {
+    position: relative;
+    display: inline;
+    border-bottom: 1px dotted currentColor;
+    cursor: help;
+    text-decoration: none;
+  }
+
+  .definition-tooltip {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 0.65rem);
+    z-index: 20;
+    width: max-content;
+    max-width: min(18rem, calc(100vw - 2rem));
+    padding: 0.45rem 0.65rem;
+    border: 1px solid var(--content-border-color);
+    border-top: 2px solid var(--tooltip-band-color);
+    border-radius: var(--border-radius);
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 400;
+    line-height: 1.4;
+    text-align: left;
+    white-space: normal;
+    box-shadow: 0 4px 14px rgb(0 0 0 / 12%);
+    pointer-events: none;
+    opacity: 0;
+    transform: translateX(-50%) translateY(0.25rem);
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .definition-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 0.4rem solid transparent;
+    border-top-color: var(--content-border-color);
+  }
+
+  .definition-tooltip::before {
+    content: '';
+    position: absolute;
+    top: calc(100% - 1px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 0.35rem solid transparent;
+    border-top-color: var(--bg-color);
+    z-index: 1;
+  }
+
+  .definition-term:hover .definition-tooltip,
+  .definition-term:focus-visible .definition-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .definition-tooltip {
+      transition: none;
+    }
+  }
+</style>

@@ -3,6 +3,7 @@ import '@/styles/global.css';
 import { Font } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import JsonLd from '@/components/JsonLd.astro';
+import { THEME } from '@/constants/theme';
 import { DEFAULT_OG_IMAGE, SITE_LOCALE, SITE_TITLE, TWITTER_HANDLE } from '@/config/site';
 import type { JsonLdSchema } from '@/lib/seo';
 
@@ -46,13 +47,15 @@ const socialImageUrl = new URL(socialImage.src, Astro.site);
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
-<script is:inline>
+<script is:inline define:vars={{ THEME }}>
   (function () {
-    const theme = localStorage.getItem('theme') || 'system';
+    const theme = localStorage.getItem('theme') ?? THEME.system;
     const dark =
-      theme === 'dark' ||
-      (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    if (dark) document.documentElement.classList.add('dark');
+      theme === THEME.dark ||
+      (theme === THEME.system && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+    if (dark) document.documentElement.classList.add(THEME.dark);
+    
     document.documentElement.dataset.theme = theme;
   })();
 </script>
