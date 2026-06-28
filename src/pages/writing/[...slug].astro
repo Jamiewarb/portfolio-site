@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
+import Accordion from '../../components/Accordion.astro';
 import Definition from '../../components/Definition.astro';
 import CodeFilename from '../../components/CodeFilename.astro';
 import { getPublishedBlogPosts } from '../../lib/blog';
@@ -19,5 +20,5 @@ const { Content, headings, remarkPluginFrontmatter } = await render(post);
 ---
 
 <BlogPost post={post} headings={headings} minutesRead={remarkPluginFrontmatter.minutesRead}>
-  <Content components={{ Def: Definition, CodeFilename }} />
+  <Content components={{ Accordion, Def: Definition, CodeFilename }} />
 </BlogPost>
