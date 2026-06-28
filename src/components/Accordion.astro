@@ -89,10 +89,11 @@ const panelId = `accordion-panel-${crypto.randomUUID()}`;
   .accordion__content {
     overflow: hidden;
     min-height: 0;
+    padding-inline: 1rem;
   }
 
   .accordion.is-open .accordion__content {
-    padding: 0 1rem 1rem;
+    padding-bottom: 1rem;
   }
 
   @media (prefers-reduced-motion: reduce) {
