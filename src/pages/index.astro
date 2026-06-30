@@ -36,8 +36,8 @@ const projectsSectionStart = allWritingIndex + 1;
   <div class="home-page">
     <PageHero type="index" title="I'm Jamie">
       <p class="description page-load-item" style="--load-index: 1">
-        I'm a software engineer, engineering leader, and proud father. I've been making websites
-        and products since 2005, and some of them have won&nbsp;awards!
+        I'm a software engineer, engineering leader, and proud father. I've been making
+        websites and products since 2005, and some of them have won&nbsp;awards!
       </p>
       <p class="description page-load-item" style="--load-index: 2">
         Here you'll find my writing, projects, talks, and other things I've been working on or
@@ -63,25 +63,28 @@ const projectsSectionStart = allWritingIndex + 1;
 
     <div class="home-sections">
       <section>
-        <h2 class="page-load-item" style={`--load-index: ${writingSectionStart}`}>Recent Writing</h2>
+        <h2 class="page-load-item" style={`--load-index: ${writingSectionStart}`}>
+          Recent Writing
+        </h2>
         <RecentWriting limit={5} loadIndexStart={writingListStart} />
-        <a
-          class="link section-link page-load-item"
-          href={ROUTES.writing}
-          style={`--load-index: ${allWritingIndex}`}>All Writing</a
-        >
+        <span class="section-link page-load-item" style={`--load-index: ${allWritingIndex}`}>
+          <a class="link" href={ROUTES.writing}>All Writing</a>
+        </span>
       </section>
 
       <section>
-        <h2 class="page-load-item" style={`--load-index: ${projectsSectionStart}`}>Projects</h2>
-        <p class="projects-empty page-load-item" style={`--load-index: ${projectsSectionStart + 1}`}>
+        <h2 class="page-load-item" style={`--load-index: ${projectsSectionStart}`}>
+          Projects
+        </h2>
+        <p
+          class="projects-empty page-load-item"
+          style={`--load-index: ${projectsSectionStart + 1}`}
+        >
           No projects yet.
         </p>
-        <a
-          class="link section-link page-load-item"
-          href={ROUTES.projects}
-          style={`--load-index: ${projectsSectionStart + 2}`}>All Projects</a
-        >
+        <span class="section-link page-load-item" style={`--load-index: ${projectsSectionStart + 2}`}>
+          <a class="link" href={ROUTES.projects}>All Projects</a>
+        </span>
       </section>
     </div>
   </div>
@@ -146,7 +149,6 @@ const projectsSectionStart = allWritingIndex + 1;
 
   .section-link {
     display: inline-block;
-    font-size: 1.125rem;
     margin-top: 1.25rem;
   }
 </style>
