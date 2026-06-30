@@ -10,7 +10,7 @@ export const ROUTES = {
   endorsements: '/endorsements/',
   rss: '/rss.xml',
 
-  mainContent: '#main-content',
+  mainContent: 'main-content',
 
   external: {
     newsletter: 'https://jamiewarb.substack.com/',
