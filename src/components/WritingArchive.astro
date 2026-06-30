@@ -2,28 +2,29 @@
 import Search from '@lucide/astro/icons/search';
 import WritingList from '@/components/WritingList.astro';
 import WritingListItem from '@/components/WritingListItem.astro';
-import { getPostsWithReadingTime, groupPostsByYear, type BlogPost } from '@/lib/blog';
+import { getPostsWithReadingTime, groupPostsByYear, type ContentPost } from '@/lib/blog';
 
 interface Props {
-  posts: BlogPost[];
+  posts: ContentPost[];
+  itemLabel?: 'post' | 'note';
 }
 
-const { posts } = Astro.props;
+const { posts, itemLabel = 'post' } = Astro.props;
 const postsWithReadingTime = await getPostsWithReadingTime(posts);
 const readingTimeById = new Map(
   postsWithReadingTime.map(({ post, minutesRead }) => [post.id, minutesRead]),
 );
 const yearGroups = groupPostsByYear(posts);
 const postCount = posts.length;
-const postCountLabel = postCount === 1 ? 'post' : 'posts';
+const itemLabelPlural = postCount === 1 ? itemLabel : `${itemLabel}s`;
 
-function searchTextForPost(post: BlogPost): string {
+function searchTextForPost(post: ContentPost): string {
   const tags = (post.data.tags ?? []).join(' ');
   return [post.data.title, post.data.description, tags].join(' ').toLowerCase();
 }
 ---
 
-<div class="writing-archive" data-writing-archive>
+<div class="writing-archive" data-writing-archive data-item-label={itemLabel}>
   <div class="writing-toolbar">
     <label class="writing-search">
       <Search size={18} stroke-width={2} aria-hidden="true" class="writing-search-icon" />
@@ -31,7 +32,7 @@ function searchTextForPost(post: BlogPost): string {
       <input
         type="search"
         class="writing-search-input"
-        placeholder={`Search ${postCount} ${postCountLabel}...`}
+        placeholder={`Search ${postCount} ${itemLabelPlural}...`}
         autocomplete="off"
         spellcheck="false"
         data-writing-search
@@ -55,7 +56,7 @@ function searchTextForPost(post: BlogPost): string {
             <div class="writing-year-header">
               <h2 id={`writing-year-${group.year}`}>{group.year}</h2>
               <span class="writing-year-count" data-writing-year-count>
-                {group.posts.length} {group.posts.length === 1 ? 'post' : 'posts'}
+                {group.posts.length} {group.posts.length === 1 ? itemLabel : `${itemLabel}s`}
               </span>
             </div>
             <WritingList>
@@ -69,7 +70,7 @@ function searchTextForPost(post: BlogPost): string {
         ))}
       </div>
     ) : (
-      <p class="writing-empty">No articles yet.</p>
+      <p class="writing-empty">No {itemLabelPlural} yet.</p>
     )
   }
 </div>
@@ -79,6 +80,7 @@ function searchTextForPost(post: BlogPost): string {
     const searchInput = root.querySelector<HTMLInputElement>('[data-writing-search]');
     const noResults = root.querySelector<HTMLElement>('[data-writing-no-results]');
     const yearSections = Array.from(root.querySelectorAll<HTMLElement>('[data-writing-year]'));
+    const itemLabel = root.dataset.itemLabel ?? 'post';
 
     if (!searchInput || yearSections.length === 0) {
       return;
@@ -107,7 +109,7 @@ function searchTextForPost(post: BlogPost): string {
 
         const countBadge = section.querySelector<HTMLElement>('[data-writing-year-count]');
         if (countBadge) {
-          const label = sectionVisibleCount === 1 ? 'post' : 'posts';
+          const label = sectionVisibleCount === 1 ? itemLabel : `${itemLabel}s`;
           countBadge.textContent = `${sectionVisibleCount} ${label}`;
         }
       }

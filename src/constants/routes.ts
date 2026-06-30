@@ -6,6 +6,7 @@ export const ROUTES = {
   topic: (slug: string) => `/topics/${slug}/`,
   writingPost: (slug: string) => `/writing/${slug}/`,
   notes: '/notes/',
+  notesPost: (slug: string) => `/notes/${slug}/`,
   projects: '/projects/',
   endorsements: '/endorsements/',
   rss: '/rss.xml',

@@ -8,11 +8,14 @@ import { unified } from '@astrojs/markdown-remark';
 import { defineConfig, fontProviders } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
+import { remarkExternalLinks } from './remark-external-links.mjs';
 import { remarkReadingTime } from './remark-reading-time.mjs';
+
+const site = 'https://jamiewarburton.dev';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://jamiewarburton.dev',
+  site,
   output: 'static',
   adapter: netlify(),
 
@@ -34,7 +37,7 @@ export default defineConfig({
 
   markdown: {
     processor: unified({
-      remarkPlugins: [remarkReadingTime],
+      remarkPlugins: [remarkReadingTime, [remarkExternalLinks, { site }]],
     }),
   },
 

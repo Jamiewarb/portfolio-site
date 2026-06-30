@@ -1,20 +1,29 @@
 import { type CollectionEntry, getCollection, render } from 'astro:content';
+import { ROUTES } from '@/constants/routes';
 
 export type BlogPost = CollectionEntry<'blog'>;
+export type NotePost = CollectionEntry<'notes'>;
+export type ContentPost = BlogPost | NotePost;
+
+export function contentRoute(post: ContentPost): string {
+  return post.collection === 'blog'
+    ? ROUTES.writingPost(post.id)
+    : ROUTES.notesPost(post.id);
+}
 
 export type BlogPostWithReadingTime = {
-  post: BlogPost;
+  post: ContentPost;
   minutesRead: string;
 };
 
-export function articleDate(post: BlogPost): Date {
+export function articleDate(post: ContentPost): Date {
   return post.data.updatedAt ?? post.data.publishedAt;
 }
 
-export function sortByArticleDate(
-  posts: BlogPost[],
+export function sortByArticleDate<T extends ContentPost>(
+  posts: T[],
   order: 'desc' | 'asc' = 'desc',
-): BlogPost[] {
+): T[] {
   return [...posts].sort((a, b) => {
     const diff = articleDate(b).valueOf() - articleDate(a).valueOf();
     return order === 'desc' ? diff : -diff;
@@ -40,13 +49,13 @@ export type TopicTagGroup = {
 
 export type PostsByYear = {
   year: number;
-  posts: BlogPost[];
+  posts: ContentPost[];
 };
 
 export type TopicWithPosts = {
   name: string;
   slug: string;
-  posts: BlogPost[];
+  posts: ContentPost[];
 };
 
 export async function getBlogPosts(options: GetBlogPostsOptions = {}): Promise<BlogPost[]> {
@@ -67,7 +76,7 @@ export function getPublishedBlogPosts(options: GetBlogPostsOptions = {}): Promis
 }
 
 export async function getPostsWithReadingTime(
-  posts: BlogPost[],
+  posts: ContentPost[],
 ): Promise<BlogPostWithReadingTime[]> {
   return Promise.all(
     posts.map(async (post) => {
@@ -93,7 +102,26 @@ function topicSectionFromTag(tag: string): string {
   return /^[A-Z]$/.test(firstChar) ? firstChar : '#';
 }
 
-export function buildTopicTagGroups(posts: BlogPost[]): TopicTagGroup[] {
+export async function getPublishedContentPosts(
+  options: GetBlogPostsOptions = {},
+): Promise<ContentPost[]> {
+  const { limit, sort = 'desc' } = options;
+
+  const [blogPosts, notePosts] = await Promise.all([
+    getCollection('blog'),
+    getCollection('notes'),
+  ]);
+
+  let posts = sortByArticleDate([...blogPosts, ...notePosts], sort);
+
+  if (limit !== undefined) {
+    posts = posts.slice(0, limit);
+  }
+
+  return posts;
+}
+
+export function buildTopicTagGroups(posts: ContentPost[]): TopicTagGroup[] {
   const tagsByName = new Map<string, TopicTag>();
 
   for (const post of posts) {
@@ -136,11 +164,11 @@ export function buildTopicTagGroups(posts: BlogPost[]): TopicTagGroup[] {
 }
 
 export async function getTopicTagGroups(): Promise<TopicTagGroup[]> {
-  return buildTopicTagGroups(await getPublishedBlogPosts());
+  return buildTopicTagGroups(await getPublishedContentPosts());
 }
 
-export function groupPostsByYear(posts: BlogPost[]): PostsByYear[] {
-  const postsByYear = new Map<number, BlogPost[]>();
+export function groupPostsByYear(posts: ContentPost[]): PostsByYear[] {
+  const postsByYear = new Map<number, ContentPost[]>();
 
   for (const post of sortByArticleDate(posts)) {
     const year = articleDate(post).getFullYear();
@@ -154,7 +182,7 @@ export function groupPostsByYear(posts: BlogPost[]): PostsByYear[] {
     .map(([year, yearPosts]) => ({ year, posts: yearPosts }));
 }
 
-export function getPostsForTag(posts: BlogPost[], tagName: string): BlogPost[] {
+export function getPostsForTag(posts: ContentPost[], tagName: string): ContentPost[] {
   const tagKey = normalizeTagKey(tagName);
 
   return sortByArticleDate(
@@ -164,7 +192,7 @@ export function getPostsForTag(posts: BlogPost[], tagName: string): BlogPost[] {
   );
 }
 
-export function getAllTopics(posts: BlogPost[]): TopicWithPosts[] {
+export function getAllTopics(posts: ContentPost[]): TopicWithPosts[] {
   const topics = new Map<string, TopicWithPosts>();
 
   for (const post of posts) {
@@ -194,15 +222,15 @@ export function getAllTopics(posts: BlogPost[]): TopicWithPosts[] {
 }
 
 export async function getAllTopicsWithPosts(): Promise<TopicWithPosts[]> {
-  return getAllTopics(await getPublishedBlogPosts());
+  return getAllTopics(await getPublishedContentPosts());
 }
 
-export function getTopicBySlug(posts: BlogPost[], slug: string): TopicWithPosts | undefined {
+export function getTopicBySlug(posts: ContentPost[], slug: string): TopicWithPosts | undefined {
   return getAllTopics(posts).find((topic) => topic.slug === slug);
 }
 
 export async function getTopicBySlugFromPosts(
   slug: string,
 ): Promise<TopicWithPosts | undefined> {
-  return getTopicBySlug(await getPublishedBlogPosts(), slug);
+  return getTopicBySlug(await getPublishedContentPosts(), slug);
 }

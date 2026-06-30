@@ -3,21 +3,28 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { HOME_DESCRIPTION, HOME_TITLE } from '../config/site';
 import PageHero from '../components/PageHero.astro';
 import RecentWriting from '../components/RecentWriting.astro';
+import RecentNotes from '../components/RecentNotes.astro';
 import { ROUTES } from '../constants/routes';
 import { absoluteUrl, websiteSchema } from '../lib/seo';
 import { Image } from 'astro:assets';
 import headshot from '@/assets/jamie-warburton-headshot-software-engineering-leader.png';
 
 import { getPublishedBlogPosts } from '@/lib/blog';
+import { getPublishedNotes } from '@/lib/notes';
 
 const logoUrl = absoluteUrl('/favicon.svg', Astro.site!);
 const jsonLd = websiteSchema(Astro.site!, logoUrl);
 
 const recentPosts = await getPublishedBlogPosts({ limit: 5 });
+const recentNotes = await getPublishedNotes({ limit: 5 });
 const writingSectionStart = 6;
 const writingListStart = 7;
 const allWritingIndex = writingListStart + recentPosts.length;
 const projectsSectionStart = allWritingIndex + 1;
+const allProjectsIndex = projectsSectionStart + 2;
+const notesSectionStart = allProjectsIndex + 1;
+const notesListStart = notesSectionStart + 1;
+const allNotesIndex = notesListStart + recentNotes.length;
 ---
 
 <style is:inline>
@@ -82,8 +89,16 @@ const projectsSectionStart = allWritingIndex + 1;
         >
           No projects yet.
         </p>
-        <span class="section-link page-load-item" style={`--load-index: ${projectsSectionStart + 2}`}>
+        <span class="section-link page-load-item" style={`--load-index: ${allProjectsIndex}`}>
           <a class="link" href={ROUTES.projects}>All Projects</a>
+        </span>
+      </section>
+
+      <section>
+        <h2 class="page-load-item" style={`--load-index: ${notesSectionStart}`}>Notes</h2>
+        <RecentNotes limit={5} loadIndexStart={notesListStart} />
+        <span class="section-link page-load-item" style={`--load-index: ${allNotesIndex}`}>
+          <a class="link" href={ROUTES.notes}>All Notes</a>
         </span>
       </section>
     </div>
@@ -122,7 +137,7 @@ const projectsSectionStart = allWritingIndex + 1;
 
     @variant lg {
       grid-template-columns: 1fr 1fr;
-      gap: var(--wrapper-padding);
+      gap: 4rem;
       align-items: start;
     }
   }

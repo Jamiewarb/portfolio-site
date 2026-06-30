@@ -12,7 +12,6 @@ const blog = defineCollection({
     base: './src/content/writing',
     pattern: ['**/*.{md,mdx}', '!drafts/**'],
   }),
-  // Type-check frontmatter using a schema
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -29,4 +28,25 @@ const blog = defineCollection({
     }),
 });
 
-export const collections = { blog };
+const notes = defineCollection({
+  loader: glob({
+    base: './src/content/notes',
+    pattern: ['**/*.{md,mdx}', '!drafts/**'],
+  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      description: z.string(),
+      tags: z.array(z.string()).optional().default([]),
+      publishedAt: isoDate,
+      updatedAt: isoDate.optional(),
+      heroImage: z.optional(image()),
+      author: z.string().optional(),
+      ogTitle: z.string().optional(),
+      ogDescription: z.string().optional(),
+      ogImage: z.optional(image()),
+      postId: z.string(),
+    }),
+});
+
+export const collections = { blog, notes };

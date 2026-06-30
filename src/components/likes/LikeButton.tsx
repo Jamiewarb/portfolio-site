@@ -10,6 +10,7 @@ interface LikeButtonProps {
   postId: string;
   initialCount?: number;
   className?: string;
+  enabled?: boolean;
 }
 
 function AnimatedDigit({ digit, direction }: { digit: string; direction: 'up' | 'down' }) {
@@ -78,10 +79,16 @@ function generateParticles(intensity: number) {
   }));
 }
 
-export function LikeButton({ postId, initialCount = 0, className }: LikeButtonProps) {
+export function LikeButton({
+  postId,
+  initialCount = 0,
+  className,
+  enabled = true,
+}: LikeButtonProps) {
   const { count, userLikes, canLike, isLoading, addLike, removeLike } = useLikes(
     postId,
     initialCount,
+    enabled,
   );
   const [isShaking, setIsShaking] = useState(false);
   const [particles, setParticles] = useState<ReturnType<typeof generateParticles>>([]);

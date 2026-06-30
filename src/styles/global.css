@@ -28,6 +28,8 @@
 }
 
 :root {
+  color-scheme: light dark;
+
   --navbar-height: 60px;
   --sidebar-width: 260px;
   --content-width: 760px;
@@ -74,6 +76,8 @@
 }
 
 .dark {
+  color-scheme: dark light;
+
   --text-color: var(--color-neutral-300);
   --text-muted: var(--color-neutral-400);
   --heading-color: var(--color-white);

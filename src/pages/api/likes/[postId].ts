@@ -1,12 +1,14 @@
 import type { APIRoute } from 'astro';
 
-import { getClientIp, hashUserIp } from '../../../lib/likes/user-hash';
+import { INITIAL_LIKE_DATA } from '../../../lib/likes/constants';
+import { isLikesEnabled } from '../../../lib/likes/config';
 import {
   decrementLike,
   getLikeData,
   incrementLike,
   LikesRateLimitError,
 } from '../../../lib/likes/store';
+import { getClientIp, hashUserIp } from '../../../lib/likes/user-hash';
 
 export const prerender = false;
 
@@ -31,6 +33,10 @@ export const GET: APIRoute = async ({ params, request }) => {
     return errorResponse('Missing post ID', 400);
   }
 
+  if (!isLikesEnabled()) {
+    return jsonResponse(INITIAL_LIKE_DATA);
+  }
+
   try {
     const userHash = hashUserIp(getClientIp(request));
     const data = await getLikeData(postId, userHash);
@@ -46,6 +52,10 @@ export const POST: APIRoute = async ({ params, request }) => {
 
   if (!postId) {
     return errorResponse('Missing post ID', 400);
+  }
+
+  if (!isLikesEnabled()) {
+    return jsonResponse(INITIAL_LIKE_DATA);
   }
 
   try {
@@ -68,6 +78,10 @@ export const DELETE: APIRoute = async ({ params, request }) => {
 
   if (!postId) {
     return errorResponse('Missing post ID', 400);
+  }
+
+  if (!isLikesEnabled()) {
+    return jsonResponse(INITIAL_LIKE_DATA);
   }
 
   try {

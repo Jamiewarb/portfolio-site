@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { articleDate, tagToSlug, type BlogPost } from '../lib/blog';
+import { articleDate, contentRoute, tagToSlug, type ContentPost } from '../lib/blog';
 import type { MarkdownHeading } from 'astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
@@ -21,15 +21,16 @@ import {
 } from '../lib/seo';
 
 interface Props {
-  post: BlogPost;
+  post: ContentPost;
   headings?: MarkdownHeading[];
   minutesRead?: string;
+  collection?: 'blog' | 'notes';
 }
 
 const {
   post,
+  collection = post.collection,
   post: {
-    id,
     data: {
       title,
       description,
@@ -50,14 +51,17 @@ const {
 
 const initialLikeCount = getArchivedLikeCount(postId);
 
-const canonicalURL = absoluteUrl(ROUTES.writingPost(id), Astro.site!);
+const postRoute = contentRoute(post);
+const canonicalURL = absoluteUrl(postRoute, Astro.site!);
 const logoUrl = absoluteUrl('/favicon.svg', Astro.site!);
 const socialImage = ogImage ?? heroImage;
 const imageUrl = socialImage ? new URL(socialImage.src, Astro.site).href : undefined;
 const authorName = postAuthor ?? SITE_AUTHOR;
 const modifiedTime = updatedAt ?? publishedAt;
 
-const breadcrumbAncestors = [{ label: 'Writing', href: ROUTES.writing }];
+const collectionTitle = collection === 'notes' ? 'Notes' : 'Writing';
+const collectionRoute = collection === 'notes' ? ROUTES.notes : ROUTES.writing;
+const breadcrumbAncestors = [{ label: collectionTitle, href: collectionRoute }];
 
 const jsonLd = normalizeJsonLd([
   blogPostingSchema({

@@ -1,0 +1,43 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import WritingArchive from '@/components/WritingArchive.astro';
+import { getPublishedNotes } from '@/lib/notes';
+import { ROUTES } from '@/constants/routes';
+import { NOTES_DESCRIPTION, NOTES_TITLE } from '@/config/site';
+import { collectionPageSchema, pageTitle } from '@/lib/seo';
+
+const posts = await getPublishedNotes();
+
+const jsonLd = collectionPageSchema(Astro.site!, NOTES_TITLE, NOTES_DESCRIPTION, ROUTES.notes);
+---
+
+<BaseLayout title={pageTitle(NOTES_TITLE)} description={NOTES_DESCRIPTION} jsonLd={jsonLd}>
+  <PageHero title={NOTES_TITLE}>
+    <p class="description">{NOTES_DESCRIPTION}</p>
+
+    <a class="link topics-link" href={ROUTES.topics}>See all topics</a>
+  </PageHero>
+
+  <WritingArchive posts={posts} itemLabel="note" />
+</BaseLayout>
+
+<style>
+  @reference "../../styles/global.css";
+
+  .description {
+    margin: 0;
+    max-width: 600px;
+
+    @variant md {
+      font-size: 1.325rem;
+    }
+  }
+
+  .topics-link {
+    display: inline-block;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.125rem;
+  }
+</style>

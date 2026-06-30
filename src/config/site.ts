@@ -19,6 +19,10 @@ export const WRITING_TITLE = 'Writing';
 export const WRITING_DESCRIPTION =
   'Articles and essays on software engineering, leadership, and the web.';
 
+export const NOTES_TITLE = 'Notes';
+export const NOTES_DESCRIPTION =
+  'Shorter notes on my life, my work, and things I am thinking about.';
+
 export const TOPICS_TITLE = 'Topics';
 export const TOPICS_DESCRIPTION =
   "All the topics I've covered — front and backend software development, design, architecture, and personal topics.";

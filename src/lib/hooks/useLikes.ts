@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { decrementLike, fetchLikeData, incrementLike } from '../likes/api';
+import { LIKES_DISABLED_MESSAGE } from '../likes/config';
 import { INITIAL_LIKE_DATA, MAX_LIKES_PER_USER, type LikeData } from '../likes/constants';
 
-export function useLikes(postId: string, initialCount = 0) {
+export function useLikes(postId: string, initialCount = 0, enabled = true) {
   const [data, setData] = useState<LikeData>({
     ...INITIAL_LIKE_DATA,
     count: initialCount,
@@ -16,6 +17,11 @@ export function useLikes(postId: string, initialCount = 0) {
   }, [data]);
 
   useEffect(() => {
+    if (!enabled) {
+      setIsLoading(false);
+      return;
+    }
+
     let cancelled = false;
 
     fetchLikeData(postId)
@@ -35,9 +41,14 @@ export function useLikes(postId: string, initialCount = 0) {
     return () => {
       cancelled = true;
     };
-  }, [postId]);
+  }, [postId, enabled]);
 
   const addLike = useCallback(async () => {
+    if (!enabled) {
+      console.log(LIKES_DISABLED_MESSAGE);
+      return;
+    }
+
     const current = dataRef.current;
     if (!current.canLike) return;
 
@@ -58,9 +69,14 @@ export function useLikes(postId: string, initialCount = 0) {
       console.error('Error adding like:', error);
       setData(previousData);
     }
-  }, [postId]);
+  }, [postId, enabled]);
 
   const removeLike = useCallback(async () => {
+    if (!enabled) {
+      console.log(LIKES_DISABLED_MESSAGE);
+      return;
+    }
+
     const current = dataRef.current;
     if (current.userLikes <= 0) return;
 
@@ -82,7 +98,7 @@ export function useLikes(postId: string, initialCount = 0) {
       console.error('Error removing like:', error);
       setData(previousData);
     }
-  }, [postId]);
+  }, [postId, enabled]);
 
   return {
     count: data.count,

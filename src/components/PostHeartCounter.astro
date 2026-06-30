@@ -1,5 +1,6 @@
 ---
 import LikeButton from './likes/LikeButton.tsx';
+import { isLikesEnabled } from '../lib/likes/config';
 
 interface Props {
   postId: string;
@@ -7,10 +8,11 @@ interface Props {
 }
 
 const { postId, initialCount = 0 } = Astro.props;
+const likesEnabled = isLikesEnabled();
 ---
 
 <div class="post-heart-counter">
-  <LikeButton client:load postId={postId} initialCount={initialCount} />
+  <LikeButton client:load postId={postId} initialCount={initialCount} enabled={likesEnabled} />
 </div>
 
 <style>
