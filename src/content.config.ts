@@ -2,6 +2,11 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
+const isoDate = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/, 'Must be in YYYY-MM-DD format')
+  .transform((value) => new Date(`${value}T00:00:00Z`));
+
 const blog = defineCollection({
   loader: glob({
     base: './src/content/writing',
@@ -13,9 +18,8 @@ const blog = defineCollection({
       title: z.string(),
       description: z.string(),
       tags: z.array(z.string()).optional().default([]),
-      // Transform string to Date object
-      pubDate: z.coerce.date(),
-      updatedDate: z.coerce.date().optional(),
+      publishedAt: isoDate,
+      updatedAt: isoDate.optional(),
       heroImage: z.optional(image()),
       author: z.string().optional(),
       ogTitle: z.string().optional(),

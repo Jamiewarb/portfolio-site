@@ -76,8 +76,8 @@ export function collectionPageSchema(
 export interface BlogPostingSchemaInput {
   title: string;
   description: string;
-  pubDate: Date;
-  updatedDate?: Date;
+  publishedAt: Date;
+  updatedAt?: Date;
   imageUrl?: string;
   url: string;
   site: URL | string;
@@ -90,8 +90,8 @@ export function blogPostingSchema(input: BlogPostingSchemaInput) {
   const {
     title,
     description,
-    pubDate,
-    updatedDate,
+    publishedAt,
+    updatedAt,
     imageUrl,
     url,
     site,
@@ -111,8 +111,8 @@ export function blogPostingSchema(input: BlogPostingSchemaInput) {
     headline: title,
     description,
     url,
-    datePublished: pubDate.toISOString(),
-    dateModified: (updatedDate ?? pubDate).toISOString(),
+    datePublished: publishedAt.toISOString(),
+    dateModified: (updatedAt ?? publishedAt).toISOString(),
     author,
     publisher: publisherOrganization(site, logoUrl),
     mainEntityOfPage: {

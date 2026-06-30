@@ -33,8 +33,8 @@ const {
     data: {
       title,
       description,
-      pubDate,
-      updatedDate,
+      publishedAt,
+      updatedAt,
       heroImage,
       ogTitle,
       ogDescription,
@@ -55,7 +55,7 @@ const logoUrl = absoluteUrl('/favicon.svg', Astro.site!);
 const socialImage = ogImage ?? heroImage;
 const imageUrl = socialImage ? new URL(socialImage.src, Astro.site).href : undefined;
 const authorName = postAuthor ?? SITE_AUTHOR;
-const modifiedTime = updatedDate ?? pubDate;
+const modifiedTime = updatedAt ?? publishedAt;
 
 const breadcrumbAncestors = [{ label: 'Writing', href: ROUTES.writing }];
 
@@ -63,8 +63,8 @@ const jsonLd = normalizeJsonLd([
   blogPostingSchema({
     title,
     description,
-    pubDate,
-    updatedDate,
+    publishedAt,
+    updatedAt,
     imageUrl,
     url: canonicalURL,
     site: Astro.site!,
@@ -89,7 +89,7 @@ const jsonLd = normalizeJsonLd([
   ogDescription={ogDescription}
   ogImage={ogImage}
   ogType="article"
-  publishedTime={pubDate}
+  publishedTime={publishedAt}
   modifiedTime={modifiedTime}
   author={authorName}
   jsonLd={jsonLd}

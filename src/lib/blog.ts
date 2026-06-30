@@ -8,7 +8,7 @@ export type BlogPostWithReadingTime = {
 };
 
 export function articleDate(post: BlogPost): Date {
-  return post.data.updatedDate ?? post.data.pubDate;
+  return post.data.updatedAt ?? post.data.publishedAt;
 }
 
 export function sortByArticleDate(
