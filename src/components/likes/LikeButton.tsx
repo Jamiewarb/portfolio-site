@@ -176,7 +176,7 @@ export function LikeButton({
         className={cn(
           'inline-flex h-7 cursor-pointer items-center justify-center gap-1 rounded-full border-0 pr-2.5 pl-2 font-medium whitespace-nowrap select-none',
           'bg-white text-neutral-600 shadow-sm ring-[0.5px] ring-black/10 hover:bg-neutral-100',
-          'focus-visible:outline-none disabled:pointer-events-none disabled:opacity-100',
+          'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--link-color) disabled:pointer-events-none disabled:opacity-100',
           'dark:bg-neutral-800 dark:text-neutral-400 dark:ring-white/10 dark:hover:bg-neutral-700',
           isFilled &&
             'text-red-500 hover:text-red-600 dark:text-red-500 dark:hover:text-red-400',
