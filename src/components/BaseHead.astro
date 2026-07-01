@@ -54,13 +54,18 @@ const socialImageUrl = new URL(socialImage.src, Astro.site);
       theme === THEME.dark ||
       (theme === THEME.system && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
-    if (dark) document.documentElement.classList.add(THEME.dark);
-    
     document.documentElement.dataset.theme = theme;
+    // Keep .dark for compatibility with existing `dark:` Tailwind utilities.
+    document.documentElement.classList.toggle(THEME.dark, dark);
   })();
 </script>
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" media="(prefers-color-scheme: light)" />
+<link
+  rel="icon"
+  type="image/svg+xml"
+  href="/favicon.svg"
+  media="(prefers-color-scheme: light)"
+/>
 <link
   rel="icon"
   type="image/svg+xml"
@@ -68,7 +73,12 @@ const socialImageUrl = new URL(socialImage.src, Astro.site);
   media="(prefers-color-scheme: dark)"
 />
 <link rel="icon" href="/favicon.ico" sizes="48x48" media="(prefers-color-scheme: light)" />
-<link rel="icon" href="/favicon-light.ico" sizes="48x48" media="(prefers-color-scheme: dark)" />
+<link
+  rel="icon"
+  href="/favicon-light.ico"
+  sizes="48x48"
+  media="(prefers-color-scheme: dark)"
+/>
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link
   rel="alternate"

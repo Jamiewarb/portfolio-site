@@ -18,6 +18,13 @@ export function isDark(theme: Theme): boolean {
   return window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
 
+export function isDarkFromDom(): boolean {
+  const theme = document.documentElement.dataset.theme;
+  if (theme === THEME.dark) return true;
+  if (theme === THEME.light) return false;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
 function prefersReducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
@@ -38,26 +45,29 @@ function setTransitionOrigin(origin: HTMLElement) {
 
 export function applyTheme(theme: Theme, options?: { origin?: HTMLElement }) {
   const willBeDark = isDark(theme);
-  const isCurrentlyDark = document.documentElement.classList.contains(THEME.dark);
+  const currentTheme = (document.documentElement.dataset.theme as Theme | undefined) ?? THEME.system;
+  const isCurrentlyDark = isDark(currentTheme);
 
   const update = () => {
     localStorage.setItem(STORAGE_KEY, theme);
-    document.documentElement.classList.toggle(THEME.dark, willBeDark);
     document.documentElement.dataset.theme = theme;
+    // Keep .dark for compatibility with existing `dark:` Tailwind utilities.
+    document.documentElement.classList.toggle(THEME.dark, willBeDark);
     syncToggles(theme);
     document.dispatchEvent(
       new CustomEvent('themechange', { detail: { theme, dark: willBeDark } }),
     );
   };
 
+  const origin = options?.origin;
   const shouldAnimate =
-    options?.origin &&
+    origin &&
     isCurrentlyDark !== willBeDark &&
     !prefersReducedMotion() &&
     typeof document.startViewTransition === 'function';
 
   if (shouldAnimate) {
-    setTransitionOrigin(options.origin);
+    setTransitionOrigin(origin);
     document.startViewTransition(update);
     return;
   }

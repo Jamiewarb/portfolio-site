@@ -1,13 +1,11 @@
-import { THEME } from '@/constants/theme';
+import { isDarkFromDom } from '@/lib/theme';
 
 const UTTERANCES_ORIGIN = 'https://utteranc.es';
 
 export type UtterancesTheme = 'github-light' | 'github-dark';
 
 export function utterancesTheme(): UtterancesTheme {
-  return document.documentElement.classList.contains(THEME.dark)
-    ? 'github-dark'
-    : 'github-light';
+  return isDarkFromDom() ? 'github-dark' : 'github-light';
 }
 
 export function syncUtterancesTheme() {

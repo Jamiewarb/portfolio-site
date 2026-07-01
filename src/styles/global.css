@@ -18,6 +18,8 @@
   --color-neutral-800: #262626;
   --color-neutral-900: #171717;
 
+  --color-blackboard: #24292e;
+
   --color-orange: #ff9800;
   --color-orange-pale: #eee8d5;
   --color-orange-pale-dark: #33302a;
@@ -38,27 +40,41 @@
 
   --border-radius: 6px;
 
-  --text-color: var(--color-ink);
-  --text-muted: var(--color-neutral-600);
-  --heading-color: var(--color-ink);
-  --heading-muted: var(--color-neutral-600);
-  --bg-color: var(--color-gray-light);
+  --text-color: light-dark(var(--color-ink), var(--color-neutral-300));
+  --text-muted: light-dark(var(--color-neutral-600), var(--color-neutral-400));
+  --heading-color: light-dark(var(--color-ink), var(--color-white));
+  --heading-muted: light-dark(var(--color-neutral-600), var(--color-neutral-400));
+  --bg-color: light-dark(var(--color-gray-light), var(--color-ink-black));
 
-  --sidebar-border-color: var(--color-neutral-200);
+  --sidebar-border-color: light-dark(var(--color-neutral-200), var(--color-neutral-800));
   --sidebar-bg-color: var(--bg-color);
-  --content-border-color: var(--color-neutral-200);
+  --content-border-color: light-dark(var(--color-neutral-200), var(--color-neutral-800));
 
   --link-color: var(--color-orange);
-  --link-highlight-color: var(--color-orange-pale);
-  --toc-link-hover-bg: var(--color-orange-pale);
-  --toc-link-active-bg: var(--color-orange-pale);
+  --link-highlight-color: light-dark(var(--color-orange-pale), var(--color-orange-pale-dark));
+  --toc-link-hover-bg: light-dark(var(--color-orange-pale), var(--color-neutral-800));
+  --toc-link-active-bg: light-dark(var(--color-orange-pale), var(--color-orange-pale-dark));
 
   --tooltip-band-color: var(--color-orange);
 
   --link-squiggle: url("data:image/svg+xml;charset=utf8,%3Csvg id='squiggle-link' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml-events' viewBox='0 0 20 4'%3E%3Cstyle type='text/css'%3E.squiggle{animation:shift .3s linear infinite;}@keyframes shift {from {transform:translateX(0);}to {transform:translateX(-20px);}}%3C/style%3E%3Cpath fill='none' stroke='%23ff9800' stroke-width='2' class='squiggle' d='M0,3.5 c 5,0,5,-3,10,-3 s 5,3,10,3 c 5,0,5,-3,10,-3 s 5,3,10,3'/%3E%3C/svg%3E");
 
-  --color-background-code-block: #24292e;
-  --color-border-code-block: var(--color-neutral-700);
+  --input-bg-color: light-dark(var(--color-neutral-100), var(--color-neutral-800));
+  --input-placeholder-color: light-dark(var(--color-neutral-600), var(--color-neutral-400));
+  --input-border-color: light-dark(var(--color-neutral-200), var(--color-neutral-700));
+
+  --code-bg-color: var(--color-blackboard);
+  --code-border-color: var(--color-neutral-700);
+  --theme-toggle-border: light-dark(var(--color-neutral-200), var(--color-neutral-700));
+  --theme-toggle-bg: transparent;
+  --theme-toggle-icon: light-dark(var(--color-neutral-600), var(--color-neutral-400));
+  --theme-toggle-icon-hover: light-dark(var(--color-neutral-900), var(--color-neutral-100));
+  --theme-toggle-active-bg: light-dark(var(--color-neutral-200), var(--color-neutral-700));
+
+  --social-icon-color: light-dark(var(--color-ink), var(--color-white));
+  --social-icon-hover-color: light-dark(var(--color-white), var(--color-ink));
+  --social-icon-circle-color: light-dark(var(--color-ink), var(--color-white));
+
 
   --prose-h1: 2.2rem;
   --prose-h2: 1.8rem;
@@ -75,21 +91,12 @@
   }
 }
 
-.dark {
-  color-scheme: dark light;
+[data-theme='light'] {
+  color-scheme: light;
+}
 
-  --text-color: var(--color-neutral-300);
-  --text-muted: var(--color-neutral-400);
-  --heading-color: var(--color-white);
-  --heading-muted: var(--color-neutral-400);
-  --bg-color: var(--color-ink-black);
-
-  --sidebar-border-color: var(--color-neutral-800);
-  --content-border-color: var(--color-neutral-800);
-
-  --link-highlight-color: var(--color-orange-pale-dark);
-  --toc-link-hover-bg: var(--color-neutral-800);
-  --toc-link-active-bg: var(--color-orange-pale-dark);
+[data-theme='dark'] {
+  color-scheme: dark;
 }
 
 html {
@@ -238,7 +245,7 @@ h6,
   .filename {
     display: flex;
     align-items: center;
-    background: var(--color-background-code-block);
+    background: var(--code-bg-color);
     color: var(--color-white);
     font-family: var(--font-sans);
     font-size: 0.9rem;
@@ -246,7 +253,7 @@ h6,
     padding: 0.5rem 1rem;
     margin-top: 1.75em;
     margin-bottom: -1.75em;
-    border-bottom: 1px solid var(--color-border-code-block);
+    border-bottom: 1px solid var(--code-border-color);
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
     white-space: nowrap;

@@ -1,6 +1,5 @@
-import { motion } from 'motion/react';
-import { useEffect, useState } from 'react';
-import { THEME } from '@/constants/theme';
+import { motion, useReducedMotion } from 'motion/react';
+import { useState } from 'react';
 
 const SOCIAL_SPRING = {
   type: 'spring' as const,
@@ -15,45 +14,6 @@ interface SocialLinkProps {
   href: string;
   label: string;
   platform: SocialPlatform;
-}
-
-function useIsDark() {
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    const update = () => {
-      setIsDark(document.documentElement.classList.contains(THEME.dark));
-    };
-
-    update();
-    document.addEventListener('themechange', update);
-
-    return () => {
-      document.removeEventListener('themechange', update);
-    };
-  }, []);
-
-  return isDark;
-}
-
-function usePrefersReducedMotion() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-  useEffect(() => {
-    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const update = () => {
-      setPrefersReducedMotion(media.matches);
-    };
-
-    update();
-    media.addEventListener('change', update);
-
-    return () => {
-      media.removeEventListener('change', update);
-    };
-  }, []);
-
-  return prefersReducedMotion;
 }
 
 function SocialIcon({ platform }: { platform: SocialPlatform }) {
@@ -100,12 +60,11 @@ function SocialIcon({ platform }: { platform: SocialPlatform }) {
 export function SocialLink({ href, label, platform }: SocialLinkProps) {
   const [hovered, setHovered] = useState(false);
   const [pressed, setPressed] = useState(false);
-  const isDark = useIsDark();
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const prefersReducedMotion = useReducedMotion();
 
-  const defaultColor = isDark ? '#ffffff' : '#333333';
-  const hoverColor = isDark ? '#333333' : '#ffffff';
-  const circleColor = isDark ? '#ffffff' : '#333333';
+  const defaultColor = 'var(--social-icon-color)';
+  const hoverColor = 'var(--social-icon-hover-color)';
+  const circleColor = 'var(--social-icon-circle-color)';
   const transition = prefersReducedMotion ? { duration: 0 } : SOCIAL_SPRING;
 
   return (
