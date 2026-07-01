@@ -63,8 +63,12 @@
   --input-placeholder-color: light-dark(var(--color-neutral-600), var(--color-neutral-400));
   --input-border-color: light-dark(var(--color-neutral-200), var(--color-neutral-700));
 
+  --code-color: var(--color-white);
   --code-bg-color: var(--color-blackboard);
   --code-border-color: var(--color-neutral-700);
+  --inline-code-color: light-dark(var(--color-ink), var(--color-white));
+  --inline-code-bg-color: light-dark(#0000000d, #ffffff0d);
+
   --theme-toggle-border: light-dark(var(--color-neutral-200), var(--color-neutral-700));
   --theme-toggle-bg: transparent;
   --theme-toggle-icon: light-dark(var(--color-neutral-600), var(--color-neutral-400));
@@ -265,6 +269,22 @@ h6,
   .filename + pre {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+  }
+
+  :not(pre)>code {
+    font-family: var(--font-mono);
+    color: inherit;
+    background: var(--inline-code-bg-color);
+    border: 0;
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-weight: 600;
+    &::before {
+      content: ''!important;
+    }
+    &::after {
+      content: ''!important;
+    }
   }
 }
 
