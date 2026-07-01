@@ -78,6 +78,12 @@ export function MyComponent() {
 }
 ```
 
+### CSS and responsive layout
+
+- Write **mobile-first** styles. Do not use `max-width` media queries or Tailwind `max-*` variants for layout.
+- In `.css` files and Astro `<style>` blocks, use Tailwind **`@variant`** for breakpoints (e.g. `@variant md { ... }`). Add `@reference "../styles/global.css"` (adjust path as needed) in Astro `<style>` tags so `@variant` resolves.
+- Prefer intrinsic wrapping (`flex-wrap`, `min-width: min(100%, max-content)`, etc.) over fixed breakpoints when layout should respond to available space.
+
 ## Testing
 
 When implementing features ensure you test them with the following:

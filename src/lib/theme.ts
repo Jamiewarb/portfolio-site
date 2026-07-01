@@ -19,10 +19,7 @@ export function isDark(theme: Theme): boolean {
 }
 
 export function isDarkFromDom(): boolean {
-  const theme = document.documentElement.dataset.theme;
-  if (theme === THEME.dark) return true;
-  if (theme === THEME.light) return false;
-  return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  return isDark(document.documentElement.dataset.theme as Theme);
 }
 
 function prefersReducedMotion(): boolean {
@@ -45,7 +42,8 @@ function setTransitionOrigin(origin: HTMLElement) {
 
 export function applyTheme(theme: Theme, options?: { origin?: HTMLElement }) {
   const willBeDark = isDark(theme);
-  const currentTheme = (document.documentElement.dataset.theme as Theme | undefined) ?? THEME.system;
+  const currentTheme =
+    (document.documentElement.dataset.theme as Theme | undefined) ?? THEME.system;
   const isCurrentlyDark = isDark(currentTheme);
 
   const update = () => {
