@@ -1,0 +1,9 @@
+---
+import Playground, { type PlaygroundProps } from './playground/Playground.tsx';
+
+type Props = PlaygroundProps;
+
+const props = Astro.props;
+---
+
+<Playground client:visible {...props} />

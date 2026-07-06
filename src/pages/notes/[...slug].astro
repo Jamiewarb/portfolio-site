@@ -4,6 +4,7 @@ import BlogPost from '../../layouts/BlogPost.astro';
 import Accordion from '../../components/Accordion.astro';
 import Definition from '../../components/Definition.astro';
 import CodeFilename from '../../components/CodeFilename.astro';
+import Playground from '../../components/Playground.astro';
 import { getPublishedNotes } from '../../lib/notes';
 
 export async function getStaticPaths() {
@@ -25,5 +26,5 @@ const { Content, headings, remarkPluginFrontmatter } = await render(post);
   minutesRead={remarkPluginFrontmatter.minutesRead}
   collection="notes"
 >
-  <Content components={{ Accordion, Def: Definition, CodeFilename }} />
+  <Content components={{ Accordion, Def: Definition, CodeFilename, Playground }} />
 </BlogPost>

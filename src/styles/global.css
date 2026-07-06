@@ -375,3 +375,60 @@ h6,
   padding: 0.1rem;
   margin: -0.1rem;
 }
+
+/* Sandpack playground — rendered inside a React island, so styles are global.
+   Chrome reuses the site's code tokens so it sits alongside static code blocks. */
+.playground {
+  margin: 1.75em 0;
+}
+
+.playground .sp-wrapper {
+  border: 1px solid var(--code-border-color);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.playground-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0.4rem 0.6rem;
+  background: var(--code-bg-color);
+  border: 1px solid var(--code-border-color);
+  border-bottom: 0;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}
+
+.playground-toolbar + .sp-wrapper {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.playground-button {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-white);
+  background: transparent;
+  border: 1px solid var(--code-border-color);
+  border-radius: var(--border-radius);
+  padding: 0.2rem 0.6rem;
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.playground-button:hover {
+  background: color-mix(in srgb, var(--color-white) 12%, transparent);
+}
+
+.playground-button:focus-visible {
+  outline: 2px solid var(--link-color);
+  outline-offset: 2px;
+}
+
+.playground-button[aria-pressed='true'] {
+  background: color-mix(in srgb, var(--color-white) 18%, transparent);
+}
