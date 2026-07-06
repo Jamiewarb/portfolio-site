@@ -79,19 +79,20 @@
   --social-icon-hover-color: light-dark(var(--color-white), var(--color-ink));
   --social-icon-circle-color: light-dark(var(--color-ink), var(--color-white));
 
+  --quote-border-color: var(--color-orange);
 
-  --prose-h1: 2.2rem;
-  --prose-h2: 1.8rem;
-  --prose-h3: 1.6rem;
-  --prose-h4: 1.2rem;
-  --prose-h5: 1.2rem;
+  --prose-h1: 1.875rem;
+  --prose-h2: 1.43rem;
+  --prose-h3: 1.35rem;
+  --prose-h4: 1.15rem;
+  --prose-h5: 1.1rem;
   --prose-h6: 1rem;
 
   @variant md {
-    --prose-h1: 2.6rem;
-    --prose-h2: 2.1rem;
-    --prose-h3: 1.8rem;
-    --prose-h4: 1.5rem;
+    --prose-h1: 2.4375rem;
+    --prose-h2: 1.9375rem;
+    --prose-h3: 1.5625rem;
+    --prose-h4: 1.25rem;
   }
 }
 
@@ -206,6 +207,7 @@ h6,
 .prose {
   --tw-prose-body: var(--text-color);
   --tw-prose-headings: var(--heading-color);
+  --tw-prose-quote-borders: var(--quote-border-color);
   font-size: 1.05rem;
 
   h1 {
@@ -286,6 +288,19 @@ h6,
       content: ''!important;
     }
   }
+
+  /** Override Tailwind's default blockquote styles */
+  :where(blockquote):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    font-style: inherit;
+  }
+  :where(blockquote p:first-of-type):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    &::before {
+      content: ''!important;
+    }
+    &::after {
+      content: ''!important;
+    }
+  }
 }
 
 .main-article h2 {
@@ -308,8 +323,11 @@ h6,
   background-repeat: repeat-x;
   background-size: 2px 2px;
   color: var(--text-color);
-  font-weight: 600;
   text-decoration: none;
+}
+
+.link {
+  font-weight: 600;
 }
 
 .social-anchor {
