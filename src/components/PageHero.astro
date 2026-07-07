@@ -68,20 +68,39 @@ const { type, title } = Astro.props;
     }
   }
 
-  .page-hero.index :global(.hero-image) {
-    display: block;
+  .page-hero.index :global(.hero-image-wrap) {
     position: relative;
-    z-index: 1;
+    flex-shrink: 0;
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    object-fit: cover;
-    object-position: center;
 
     @variant md {
       width: 250px;
       height: 250px;
     }
+  }
+
+  .page-hero.index :global(.hero-image-wrap)::before {
+    background-color: var(--color-orange);
+    border-radius: 50%;
+    content: '';
+    height: 90%;
+    position: absolute;
+    transform: translate(28%, 25%);
+    width: 90%;
+    z-index: 0;
+  }
+
+  .page-hero.index :global(.hero-image) {
+    display: block;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
   }
 
   h1 {

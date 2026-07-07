@@ -208,7 +208,7 @@ h6,
   --tw-prose-body: var(--text-color);
   --tw-prose-headings: var(--heading-color);
   --tw-prose-quote-borders: var(--quote-border-color);
-  font-size: 1.05rem;
+  font-size: 1.125rem;
 
   h1 {
     font-size: var(--prose-h1);

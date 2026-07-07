@@ -1,0 +1,68 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import LinkCard from '@/components/LinkCard.astro';
+import LinkCards from '@/components/LinkCards.astro';
+import { ROUTES } from '@/constants/routes';
+import { ME_DESCRIPTION, ME_TITLE } from '@/config/site';
+import { pageTitle, profilePageSchema } from '@/lib/seo';
+
+const jsonLd = profilePageSchema(Astro.site!, ME_TITLE, ME_DESCRIPTION, ROUTES.me);
+---
+
+<BaseLayout
+  title={pageTitle(ME_TITLE)}
+  description={ME_DESCRIPTION}
+  jsonLd={jsonLd}
+  pageType="article"
+>
+  <PageHero title="About Jamie" />
+
+  <div class="about">
+    <div class="prose">
+      <p>
+        I'm an engineering leader for product-centric organisations. I love working on hard
+        problems that bring brilliant people together to build world class products.
+      </p><p>
+        Outside of my work, I ride motorbikes and scuba dive, I play video games,
+        <a href={ROUTES.writing}>and I write</a>. I also have three cats and a wonderful wife
+        and son.
+      </p>
+      <p>
+        Currently, I'm the Head of Engineering at
+        <a
+          href="https://www.hexdigital.com/?utm_source=jamiewarburton.dev&utm_medium=page&utm_content=about_link"
+          target="_blank">Hex Digital</a
+        >, leading the engineering function and building websites and products for enterprises
+        and global non-profits. Before that I worked for
+        <a href="https://www.paypal.com/" target="_blank">PayPal</a> as an Engineer for Merchant
+        Growth, and a fullstack developer for
+        <a
+          href="https://www.titaniumwebdesigns.com/?utm_source=jamiewarburton.dev&utm_medium=page&utm_campaign=about_link"
+          target="_blank">Titanium Web Designs</a
+        >.
+      </p>
+      <p>
+        Rewinding a bit, I started coding when I was 11, programming and animating multiplayer,
+        sprite-based games using GraalScript. I fell in love with web development when I was
+        14, creating sites for local businesses and learning how the world works. I also
+        completed my degree in Computer Science from the <a
+          href="https://www.bath.ac.uk/"
+          target="_blank">University of Bath</a
+        > in 2016.
+      </p>
+    </div>
+
+    <LinkCards>
+      <!-- <LinkCard href={ROUTES.userManual} title="User manual" linkLabel="More about me">
+        Here's a playbook with more details on how to work with me. It captures some of my
+        strengths, weaknesses, and principles that I aim to follow.
+      </LinkCard> -->
+
+      <LinkCard href={ROUTES.endorsements} title="Endorsements" linkLabel="Read endorsements">
+        Kind words from colleagues and clients I've had the pleasure of working with over the
+        years.
+      </LinkCard>
+    </LinkCards>
+  </div>
+</BaseLayout>

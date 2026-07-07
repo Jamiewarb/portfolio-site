@@ -73,6 +73,22 @@ export function collectionPageSchema(
   };
 }
 
+export function profilePageSchema(
+  site: URL | string,
+  title: string,
+  description: string,
+  path: string = ROUTES.me,
+) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    url: absoluteUrl(path, site),
+    name: title,
+    description,
+    mainEntity: authorPerson(site, absoluteUrl(path, site)),
+  };
+}
+
 export interface BlogPostingSchemaInput {
   title: string;
   description: string;

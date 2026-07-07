@@ -8,12 +8,15 @@ export const SITE_AUTHOR = 'Jamie Warburton';
 export const SITE_LOCALE = 'en_GB';
 export const TWITTER_HANDLE = '@jamiewarb';
 
-/** @TODO Use ROUTES.me when the about page ships; homepage until then. */
-export const AUTHOR_PROFILE_PATH = ROUTES.home;
+export const AUTHOR_PROFILE_PATH = ROUTES.me;
 
-export const HOME_TITLE = "Jamie Warburton's Portfolio";
+export const HOME_TITLE = "Jamie Warburton's Website";
 export const HOME_DESCRIPTION =
   "I'm a software engineer, engineering leader, and proud father. Here you'll find my writing, projects, talks, and other things I've been working on or involved in.";
+
+export const ME_TITLE = 'About';
+export const ME_DESCRIPTION =
+  "I'm Jamie Warburton — a software engineer and engineering leader who has been building websites and products since 2005.";
 
 export const WRITING_TITLE = 'Writing';
 export const WRITING_DESCRIPTION =

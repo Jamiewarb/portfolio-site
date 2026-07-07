@@ -1,6 +1,6 @@
 # Agents
 
-This repository is a portfolio website for Jamie Warburton, built in Astro and hosted on Netlify. Some of the Astro islands may use React. The following conventions should be followed when contributing code or updating documentation.
+This repository is a personal website for Jamie Warburton, built in Astro and hosted on Netlify. Some of the Astro islands may use React. The following conventions should be followed when contributing code or updating documentation.
 
 ## Repository Overview
 

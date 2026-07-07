@@ -50,22 +50,22 @@ const allNotesIndex = notesListStart + recentNotes.length;
         Here you'll find my writing, projects, talks, and other things I've been working on or
         involved in.
       </p>
-      <!--<p class="links page-load-item" style="--load-index: 3">
+      <p class="links page-load-item" style="--load-index: 3">
         <a class="link" href={ROUTES.me}>About Me</a>
-        <a class="link" href={ROUTES.external.newsletter} rel="noreferrer" target="_blank">
+        <!-- <a class="link" href={ROUTES.external.newsletter} rel="noreferrer" target="_blank">
           Email Newsletter
-        </a>
-      </p>-->
+        </a> -->
+      </p>
 
-      <Image
-        slot="image"
-        src={headshot}
-        alt="Jamie Warburton headshot"
-        width={500}
-        height={500}
-        class="hero-image page-load-item"
-        style="--load-index: 4"
-      />
+      <div class="hero-image-wrap page-load-item" style="--load-index: 4" slot="image">
+        <Image
+          src={headshot}
+          alt="Jamie Warburton headshot"
+          width={500}
+          height={500}
+          class="hero-image"
+        />
+      </div>
     </PageHero>
 
     <div class="home-sections">

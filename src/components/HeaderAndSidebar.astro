@@ -1,6 +1,6 @@
 ---
 import BookOpen from '@lucide/astro/icons/book-open';
-// import CircleUser from '@lucide/astro/icons/circle-user';
+import CircleUser from '@lucide/astro/icons/circle-user';
 // import FolderKanban from '@lucide/astro/icons/folder-kanban';
 import Menu from '@lucide/astro/icons/menu';
 import StickyNote from '@lucide/astro/icons/sticky-note';
@@ -20,7 +20,7 @@ const navLinks = [
   { href: ROUTES.writing, label: 'Writing', Icon: BookOpen },
   { href: ROUTES.notes, label: 'Notes', Icon: StickyNote },
   // { href: ROUTES.projects, label: 'Projects', Icon: FolderKanban },
-  // { href: ROUTES.me, label: 'About Me', Icon: CircleUser },
+  { href: ROUTES.me, label: 'About Me', Icon: CircleUser },
 ] as const;
 
 const currentPath = Astro.url.pathname;
@@ -89,7 +89,7 @@ function isActive(href: string) {
         <p>
           I'm <a href={ROUTES.me} class="link">Jamie</a>, a software engineer, currently
           building websites for non-profits at <a
-            href="https://www.hexdigital.com/?utm_source=jamiewarburton-portfolio&utm_medium=referral&utm_campaign=footer-credit&utm_content=sidebar_link"
+            href="https://www.hexdigital.com/?utm_source=jamiewarburton.dev&utm_medium=referral&utm_campaign=footer-credit&utm_content=sidebar_link"
             target="_blank"
             rel="noreferrer"
             class="link">Hex Digital</a

@@ -19,6 +19,12 @@ export default defineConfig({
   output: 'static',
   adapter: netlify(),
 
+  redirects: {
+    '/endorsements': '/me/endorsements',
+    '/writing/how-i-built-the-theme-toggle-page-transition':
+      '/writing/building-a-cool-circular-reveal-for-light-dark-mode',
+  },
+
   prefetch: {
     prefetchAll: true,
   },

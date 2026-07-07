@@ -1,0 +1,57 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/Breadcrumbs.astro';
+import Endorsement from '@/components/Endorsement.astro';
+import { ROUTES } from '@/constants/routes';
+import { ME_TITLE } from '@/config/site';
+import { endorsements } from '@/data/endorsements';
+import { breadcrumbSchema, collectionPageSchema, normalizeJsonLd, pageTitle } from '@/lib/seo';
+
+const title = 'Endorsements';
+const description =
+  'Kind words from colleagues and clients I have had the pleasure of working with.';
+
+const breadcrumbAncestors = [{ label: ME_TITLE, href: ROUTES.me }];
+
+const jsonLd = normalizeJsonLd([
+  collectionPageSchema(Astro.site!, title, description, ROUTES.endorsements),
+  breadcrumbSchema(
+    [
+      ...breadcrumbAncestors.map((item) => ({ name: item.label, path: item.href })),
+      { name: title },
+    ],
+    Astro.site!,
+  ),
+]);
+---
+
+<BaseLayout
+  title={pageTitle(title)}
+  description={description}
+  jsonLd={jsonLd}
+  pageType="article"
+>
+  <Breadcrumbs items={breadcrumbAncestors} pageTitle={title} pageTitleVariant="hero" />
+  <p class="description">{description}</p>
+
+  <section class="endorsements-list" aria-label="Endorsements">
+    {endorsements.map((endorsement) => <Endorsement endorsement={endorsement} />)}
+  </section>
+</BaseLayout>
+
+<style>
+  @reference "../../../styles/global.css";
+
+  .description {
+    margin: 0;
+    max-width: 600px;
+
+    @variant md {
+      font-size: 1.325rem;
+    }
+  }
+
+  .endorsements-list {
+    margin-top: 2.5rem;
+  }
+</style>

@@ -1,6 +1,7 @@
 export const ROUTES = {
   home: '/',
   me: '/me/',
+  userManual: '/me/user-manual/',
   writing: '/writing/',
   topics: '/topics/',
   topic: (slug: string) => `/topics/${slug}/`,
@@ -8,7 +9,7 @@ export const ROUTES = {
   notes: '/notes/',
   notesPost: (slug: string) => `/notes/${slug}/`,
   projects: '/projects/',
-  endorsements: '/endorsements/',
+  endorsements: '/me/endorsements/',
   rss: '/rss.xml',
 
   mainContent: 'main-content',
