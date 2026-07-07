@@ -8,7 +8,7 @@ export type Endorsement = {
 export const endorsements: Endorsement[] = [
   {
     name: 'Nadia Ali',
-    role: 'Account Director, Hex Digital',
+    role: 'Account Director – Hex Digital',
     linkedin: 'https://www.linkedin.com/in/nadia-ali-aab085b1/',
     paragraphs: [
       'Jamie essentially taught me everything I know about the world of engineering. We began working together in 2017, and it has been an absolute pleasure ever since. He met me where I was (a young Account Manager coming into a digital agency) patiently and cheerfully building upon the basic web knowledge I had at the time.',
@@ -18,10 +18,10 @@ export const endorsements: Endorsement[] = [
   },
   {
     name: 'Dip Jhutti',
-    role: 'Global Technical Account Manager, Bloomberg',
+    role: 'Global Technical Account Manager – Bloomberg',
     linkedin: 'https://www.linkedin.com/in/dipjhutti/',
     paragraphs: [
-      'I was fortunate enough to work with Jamie during my time at PayPal. His enthusiasm is infectious and his attention to details is second to none. I hope one day to work with him in the future again.',
+      'I was fortunate enough to work with Jamie during my time at PayPal. <strong>His enthusiasm is infectious and his attention to details is second to none</strong>. I hope one day to work with him in the future again.',
     ],
   },
 ];

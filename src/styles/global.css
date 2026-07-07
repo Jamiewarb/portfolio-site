@@ -76,7 +76,7 @@
   --theme-toggle-icon-hover: light-dark(var(--color-neutral-900), var(--color-neutral-100));
   --theme-toggle-active-bg: light-dark(var(--color-neutral-200), var(--color-neutral-700));
 
-  --social-icon-color: light-dark(var(--color-ink), var(--color-white));
+  --social-icon-color: light-dark(var(--color-neutral-600), var(--color-neutral-400));
   --social-icon-hover-color: light-dark(var(--color-white), var(--color-ink));
   --social-icon-circle-color: light-dark(var(--color-ink), var(--color-white));
 
@@ -152,8 +152,8 @@ html {
 
 .home-page .fade-in {
   opacity: 0;
-  animation: page-load-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  animation-delay: calc(var(--load-index, 0) * 70ms + 100ms);
+  animation: page-load-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(var(--load-index, 0) * 60ms + 90ms);
 }
 
 @media (prefers-reduced-motion: reduce) {

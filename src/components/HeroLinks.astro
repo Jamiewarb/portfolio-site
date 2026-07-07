@@ -1,0 +1,46 @@
+---
+interface HeroLink {
+  href: string;
+  label: string;
+  external?: boolean;
+}
+
+interface Props {
+  links: HeroLink[];
+  loadIndexStart?: number;
+}
+
+const { links, loadIndexStart } = Astro.props;
+const hasFadeIn = loadIndexStart !== undefined;
+---
+
+<p
+  class:list={['hero-links', { 'fade-in': hasFadeIn }]}
+  style={hasFadeIn ? `--load-index: ${loadIndexStart}` : undefined}
+>
+  {
+    links.map((link) => (
+      <span>
+        <a
+          class="link"
+          href={link.href}
+          {...(link.external ? { target: '_blank', rel: 'noreferrer' } : {})}
+        >
+          {link.label}
+        </a>
+      </span>
+    ))
+  }
+</p>
+
+<style>
+  @reference "../styles/global.css";
+
+  .hero-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1.5rem 0 0;
+    font-size: 1.125rem;
+  }
+</style>

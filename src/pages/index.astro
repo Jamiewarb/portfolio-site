@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { HOME_DESCRIPTION, HOME_TITLE } from '../config/site';
 import PageHero from '../components/PageHero.astro';
+import HeroLinks from '../components/HeroLinks.astro';
 import RecentWriting from '../components/RecentWriting.astro';
 import RecentNotes from '../components/RecentNotes.astro';
 import { ROUTES } from '../constants/routes';
@@ -17,13 +18,17 @@ const jsonLd = websiteSchema(Astro.site!, logoUrl);
 
 const recentPosts = await getPublishedBlogPosts({ limit: 5 });
 const recentNotes = await getPublishedNotes({ limit: 5 });
-const writingSectionStart = 6;
-const writingListStart = 7;
+
+const writingSectionStart = 4;
+const writingListStart = writingSectionStart + 1;
 const allWritingIndex = writingListStart + recentPosts.length;
-const projectsSectionStart = allWritingIndex + 1;
-const allProjectsIndex = projectsSectionStart + 2;
-const notesSectionStart = allProjectsIndex + 1;
+
+const projectsSectionStart = writingListStart + 1;
+const allProjectsIndex = projectsSectionStart + 1;
+
+const notesSectionStart = projectsSectionStart + 2;
 const notesListStart = notesSectionStart + 1;
+
 const allNotesIndex = notesListStart + recentNotes.length;
 ---
 
@@ -50,18 +55,9 @@ const allNotesIndex = notesListStart + recentNotes.length;
         Here you'll find my writing, projects, talks, and other things I've been working on or
         involved in.
       </p>
-      <p class="links fade-in" style="--load-index: 3">
-        <span>
-          <a class="link" href={ROUTES.me}>About Me</a>
-        </span>
-        <!-- <span>
-          <a class="link" href={ROUTES.external.newsletter} rel="noreferrer" target="_blank">
-            Email Newsletter
-          </a> 
-        </span> -->
-      </p>
+      <HeroLinks links={[{ href: ROUTES.me, label: 'About Me' }]} loadIndexStart={3} />
 
-      <div class="hero-image-wrap fade-in" style="--load-index: 4" slot="image">
+      <div class="hero-image-wrap fade-in" style="--load-index: 3" slot="image">
         <Image
           src={headshot}
           alt="Jamie Warburton headshot"
@@ -112,11 +108,6 @@ const allNotesIndex = notesListStart + recentNotes.length;
     @variant md {
       font-size: 1.325rem;
     }
-  }
-
-  .links {
-    display: inline-flex;
-    gap: 1rem;
   }
 
   .link {
