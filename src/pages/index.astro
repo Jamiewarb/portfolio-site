@@ -28,12 +28,12 @@ const allNotesIndex = notesListStart + recentNotes.length;
 ---
 
 <style is:inline>
-  .home-page .page-load-item {
+  .home-page .fade-in {
     opacity: 0;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .home-page .page-load-item {
+    .home-page .fade-in {
       opacity: 1;
     }
   }
@@ -42,22 +42,26 @@ const allNotesIndex = notesListStart + recentNotes.length;
 <BaseLayout title={HOME_TITLE} description={HOME_DESCRIPTION} jsonLd={jsonLd}>
   <div class="home-page">
     <PageHero type="index" title="I'm Jamie">
-      <p class="description page-load-item" style="--load-index: 1">
+      <p class="description fade-in" style="--load-index: 1">
         I'm a software engineer, engineering leader, and proud father. I've been making
         websites and products since 2005, and some of them have won&nbsp;awards!
       </p>
-      <p class="description page-load-item" style="--load-index: 2">
+      <p class="description fade-in" style="--load-index: 2">
         Here you'll find my writing, projects, talks, and other things I've been working on or
         involved in.
       </p>
-      <p class="links page-load-item" style="--load-index: 3">
-        <a class="link" href={ROUTES.me}>About Me</a>
-        <!-- <a class="link" href={ROUTES.external.newsletter} rel="noreferrer" target="_blank">
-          Email Newsletter
-        </a> -->
+      <p class="links fade-in" style="--load-index: 3">
+        <span>
+          <a class="link" href={ROUTES.me}>About Me</a>
+        </span>
+        <!-- <span>
+          <a class="link" href={ROUTES.external.newsletter} rel="noreferrer" target="_blank">
+            Email Newsletter
+          </a> 
+        </span> -->
       </p>
 
-      <div class="hero-image-wrap page-load-item" style="--load-index: 4" slot="image">
+      <div class="hero-image-wrap fade-in" style="--load-index: 4" slot="image">
         <Image
           src={headshot}
           alt="Jamie Warburton headshot"
@@ -70,34 +74,27 @@ const allNotesIndex = notesListStart + recentNotes.length;
 
     <div class="home-sections">
       <section>
-        <h2 class="page-load-item" style={`--load-index: ${writingSectionStart}`}>
-          Recent Writing
-        </h2>
+        <h2 class="fade-in" style={`--load-index: ${writingSectionStart}`}>Recent Writing</h2>
         <RecentWriting limit={5} loadIndexStart={writingListStart} />
-        <span class="section-link page-load-item" style={`--load-index: ${allWritingIndex}`}>
+        <span class="section-link fade-in" style={`--load-index: ${allWritingIndex}`}>
           <a class="link" href={ROUTES.writing}>All Writing</a>
         </span>
       </section>
 
       <section>
-        <h2 class="page-load-item" style={`--load-index: ${projectsSectionStart}`}>
-          Projects
-        </h2>
-        <p
-          class="projects-empty page-load-item"
-          style={`--load-index: ${projectsSectionStart + 1}`}
-        >
+        <h2 class="fade-in" style={`--load-index: ${projectsSectionStart}`}>Projects</h2>
+        <p class="projects-empty fade-in" style={`--load-index: ${projectsSectionStart + 1}`}>
           No projects yet.
         </p>
-        <span class="section-link page-load-item" style={`--load-index: ${allProjectsIndex}`}>
+        <span class="section-link fade-in" style={`--load-index: ${allProjectsIndex}`}>
           <a class="link" href={ROUTES.projects}>All Projects</a>
         </span>
       </section>
 
       <section>
-        <h2 class="page-load-item" style={`--load-index: ${notesSectionStart}`}>Notes</h2>
+        <h2 class="fade-in" style={`--load-index: ${notesSectionStart}`}>Notes</h2>
         <RecentNotes limit={5} loadIndexStart={notesListStart} />
-        <span class="section-link page-load-item" style={`--load-index: ${allNotesIndex}`}>
+        <span class="section-link fade-in" style={`--load-index: ${allNotesIndex}`}>
           <a class="link" href={ROUTES.notes}>All Notes</a>
         </span>
       </section>
@@ -118,7 +115,7 @@ const allNotesIndex = notesListStart + recentNotes.length;
   }
 
   .links {
-    display: flex;
+    display: inline-flex;
     gap: 1rem;
   }
 

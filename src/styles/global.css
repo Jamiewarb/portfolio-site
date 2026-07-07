@@ -150,14 +150,14 @@ html {
   }
 }
 
-.home-page .page-load-item {
+.home-page .fade-in {
   opacity: 0;
   animation: page-load-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   animation-delay: calc(var(--load-index, 0) * 70ms + 100ms);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home-page .page-load-item {
+  .home-page .fade-in {
     opacity: 1;
     animation: none;
     transform: none;

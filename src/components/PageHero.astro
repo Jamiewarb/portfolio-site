@@ -12,7 +12,7 @@ const { type, title } = Astro.props;
     <div>
       <slot name="eyebrow" />
       <h1
-        class:list={[{ 'page-load-item': type === 'index' }]}
+        class:list={[{ 'fade-in': type === 'index' }]}
         style={type === 'index' ? '--load-index: 0' : undefined}
       >
         {title}

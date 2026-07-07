@@ -20,8 +20,12 @@ const postsWithReadingTime = await getPostsWithReadingTime(posts);
     <WritingList>
       {postsWithReadingTime.map(({ post, minutesRead }, index) => (
         <li
-          class:list={[{ 'page-load-item': loadIndexStart !== undefined }]}
-          style={loadIndexStart !== undefined ? `--load-index: ${loadIndexStart + index}` : undefined}
+          class:list={[{ 'fade-in': loadIndexStart !== undefined }]}
+          style={
+            loadIndexStart !== undefined
+              ? `--load-index: ${loadIndexStart + index}`
+              : undefined
+          }
         >
           <WritingListItem post={post} minutesRead={minutesRead} />
         </li>
@@ -29,7 +33,7 @@ const postsWithReadingTime = await getPostsWithReadingTime(posts);
     </WritingList>
   ) : (
     <p
-      class:list={['notes-empty', { 'page-load-item': loadIndexStart !== undefined }]}
+      class:list={['notes-empty', { 'fade-in': loadIndexStart !== undefined }]}
       style={loadIndexStart !== undefined ? `--load-index: ${loadIndexStart}` : undefined}
     >
       No notes yet.
