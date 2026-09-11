@@ -12,11 +12,13 @@ To clone this repo with the content submodule:
 git clone --recurse-submodules git@github.com:YOUR_USER/portfolio-site.git
 ```
 
-If you've already cloned this repo without the submodules, you can run:
+When content is pushed to the content repo, it needs updating in this one, via:
 
 ```
-git submodule update --init
+git submodule update --recursive --remote
 ```
+
+Add --init if it's the first time
 
 ## Credits
 
