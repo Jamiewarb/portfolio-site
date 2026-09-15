@@ -91,7 +91,17 @@ When implementing features ensure you test them with the following:
 - Linting `pnpm lint`
 - The build `pnpm build`
 - The functionality
- - For frontend, test via `pnpm dev` to run a local instance, then open it in a browser and test your feature
- - For API or backend, you may need to think about how best to test it, such as using the CLI to send a request to the API, or logging within the service to a log output file to then grep, etc. You decide but you must test your work
+- For frontend, test via `pnpm dev` to run a local instance, then open it in a browser and test your feature
+- For API or backend, you may need to think about how best to test it, such as using the CLI to send a request to the API, or logging within the service to a log output file to then grep, etc. You decide but you must test your work
 
 Ensure you iterate until you're happy with the success of your code.
+
+## Cursor Cloud specific instructions
+
+- **Package manager / runtime:** Use `pnpm` (v11.8.0, pinned in `package.json`). Node 22+ is required. Install with `pnpm install`.
+- **Content submodule is unavailable here.** `src/content` is a git submodule pointing at the private `portfolio-content` repo (SSH). It cannot be cloned in the cloud VM, so `src/content/` stays empty. This is expected: the site still builds and runs, but the writing/notes collections resolve to zero entries and those pages render empty (build logs show harmless `glob-loader` / "collection is empty" warnings). Do not attempt `git submodule update --init` — it fails with "Repository not found".
+- **Likes feature needs Upstash Redis (optional).** The likes API (`src/pages/api/likes/*`) and `pnpm sync:likes` require Upstash creds (`UPSTASH_LIKES_REST_URL` / `UPSTASH_LIKES_REST_TOKEN`). The dev server starts fine without them (the Redis client is created lazily).
+  - `LIKES_ENABLED=false` is injected as an environment variable in this cloud env, so likes are **disabled by default** and the API short-circuits to `INITIAL_LIKE_DATA` (all zeros) without touching Redis. Note `getEnv()` reads `process.env` first, so this injected value overrides anything in a local `.env` file.
+  - To exercise likes end-to-end (requires the Upstash secrets), start the dev server with the flag overridden: `LIKES_ENABLED=true pnpm dev`. Then a `POST /api/likes/<postId>` increments and persists the count in Redis (verified: GET→0, POST→1, POST→2, DELETE→1).
+- **Lint gotcha:** `pnpm lint` runs `eslint . && prettier --check .`. `eslint` (`pnpm lint:eslint`) passes clean, but `prettier --check` currently flags pre-existing formatting drift in several committed files, so the combined `pnpm lint` exits non-zero on a clean checkout. Don't treat that as something you broke; only fix formatting for files you actually change (e.g. via `pnpm format`).
+- **Dev server** runs at `http://localhost:4321/`. POSTs to the likes API require an `Origin: http://localhost:4321` header (Astro CSRF check) — a bare `curl -X POST` returns 403.
